@@ -24,7 +24,7 @@ int main(void){
   media = 0.0;
   for(i=0; i<n; i++)
     media += *(pvetor + i);
-  media = media/n;
+  media /= n;
   
   printf("%f\n", media);
   
