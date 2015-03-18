@@ -22,7 +22,7 @@ int main(void){
   
   //Fazendo alguma coisa (organizando vetor)
   for(i=0; i<n-1; i++)
-    for(j=1; j<n; j++)
+    for(j=i+1; j<n; j++)
       if( *(pvetor + i) > *(pvetor + j)){
 	*temp = *(pvetor + j);
 	*(pvetor + (j)) = *(pvetor + i);
