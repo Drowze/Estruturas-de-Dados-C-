@@ -36,8 +36,10 @@ void remove_nome(int i, s_aluno cadastros[]){
 int procura_por_ra(int ra, s_aluno cadastros[]){
   int i;
   for(i = 0; i < MAX; i++)
-    if(cadastros[i].ra == ra && cadastros[i].em_uso == TRUE) return i; //indice referente
-  printf("\n -- RA ENCONTRADO: %d\n", i);
+    if(cadastros[i].ra == ra && cadastros[i].em_uso == TRUE){
+      return i; //indice referente
+      printf("\n -- RA ENCONTRADO: %d\n", i);
+    }
   
   return -1; //percorreu e nao achou
 }
@@ -117,7 +119,7 @@ int main (void){
 	    	printf("Cadastro deletado com sucesso!\n");
 	    }
 	  }
-	  else printf("Opcao invalida");
+	  else printf("Opcao invalida\n");
 	}while(op != 1 && op != 2);
 	break;
       
