@@ -36,7 +36,7 @@ void remove_nome(int i, s_aluno cadastros[]){
 int procura_por_ra(int ra, s_aluno cadastros[]){
   int i;
   for(i = 0; i < MAX; i++)
-    if(cadastros[i].ra == ra) return i; //indice referente
+    if(cadastros[i].ra == ra && cadastros[i].em_uso == TRUE) return i; //indice referente
   printf("\n -- RA ENCONTRADO: %d\n", i);
   
   return -1; //percorreu e nao achou
@@ -45,7 +45,7 @@ int procura_por_ra(int ra, s_aluno cadastros[]){
 int procura_por_nome(char nome[], s_aluno cadastros[]){
   int i;
   for(i = 0; i < MAX; i++)
-    if(strcmp(cadastros[i].nome, nome) == 0) return i;
+    if(strcmp(cadastros[i].nome, nome) == 0 && cadastros[i].em_uso == TRUE) return i;
   
   return -1; //percorreu e nao achou
 }
