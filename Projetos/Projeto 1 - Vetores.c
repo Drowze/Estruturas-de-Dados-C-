@@ -102,14 +102,20 @@ int main (void){
 	    fgets(nome, 52, stdin);
 	    resultado = procura_por_nome(nome, cadastros);
 	    if(resultado == -1) printf("Nome nao encontrado\n");
-	    else remove_nome(resultado, cadastros);
+	    else{
+	    	remove_nome(resultado, cadastros);
+	    	printf("Cadastro deletado com sucesso!\n");
+	    }
 	  }
 	  else if(op == 2){
 	    printf("Digite o RA: ");
 	    scanf("%d", &ra);
 	    resultado = procura_por_ra(ra, cadastros);
 	    if(resultado == -1) printf("RA nao encontrado");
-	    else remove_nome(resultado, cadastros);
+	    else{ 
+	    	remove_nome(resultado, cadastros);
+	    	printf("Cadastro deletado com sucesso!\n");
+	    }
 	  }
 	  else printf("Opcao invalida");
 	}while(op != 1 && op != 2);
