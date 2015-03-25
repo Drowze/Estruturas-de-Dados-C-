@@ -53,15 +53,17 @@ int procura_por_nome(char nome[], s_aluno cadastros[]){
 }
 
 void exibe_cadastros(s_aluno cadastros[]){
-  int i;
+  int i, count=0;
   for(i=0; i<MAX; i++){
     if(cadastros[i].em_uso == TRUE){
+      count++;
       printf("-------------------------------\n");
       printf("Nome: %s\n", cadastros[i].nome);
       printf("RA: %d\n", cadastros[i].ra);
       printf("Nota: %f\n", cadastros[i].nota);
     }
   }
+  if(count == 0) puts("Não foram encontrados cadastros!");
 }
 
 int main (void){
@@ -156,6 +158,7 @@ int main (void){
     
     if (op != 0){ //para esperar pra limpar a tela (mas não exigir espera quando o usuario quiser sair)
       __fpurge(stdin);
+      puts("Pressione \"Enter\" para continuar");
       getchar(); 
     }
     
