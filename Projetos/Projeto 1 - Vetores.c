@@ -1,3 +1,10 @@
+/*
+Leonardo Saito 14035265
+Rafael Gibim 14081673
+Rodrigo Groot 14129027
+Vinicius Nunes 14119960
+*/
+
 #include <stdio.h>
 #include <string.h>
 
