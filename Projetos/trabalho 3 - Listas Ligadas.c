@@ -7,69 +7,18 @@ struct s_aluno{
     float nota;
     struct s_aluno *prox;
 };
+
 typedef struct s_aluno s_aluno;
 
-/*pplista: ponteiro para o ponteiro que
-aponta para o começo da lista
-no: ponteiro que aponta para o novo nó */
-void insere_nome (s_aluno *pplista, s_aluno *no){
-    pplista; //quero que apontem pro mesmo endereço
-
-    if(pplista == NULL) //Se a lista estiver vazia
-        *pplista = *no; //a lista agora aponta para o novo nó
-    else //Senão, a tento no bagulho seguinte
-        insere_nome(&(*pplista->prox), no); //<<<<aqui pode dar merda no *prox
+void insere_aluno(s_aluno **pplista, s_aluno *no){
+    if(*pplista != NULL) // verifico se a lista nao ta vazia
+        no->prox = *pplista; //se nao tiver, ponteiro do no aponta para onde apontava o ponteiro do inicio da lista
+    *pplista = no; //lista agora aponta para onde o nó aponta
 }
 
-void remove_nome (s_aluno *pplista, int ra_removido){
-    s_aluno *p = pplista;
-    if(p != NULL){
-        if(p->ra == ra_removido){
-            pplista = p->prox;
-            free(p);
-        }
-        else remove_nome(&(*p->prox), ra_removido); //VAI DAR MERDA
-    }
+int main(){
+    s_aluno *Lista;
+    s_aluno *no;
+    insere_aluno(&Lista, no);
+    return 0;
 }
-
-void imprime_lista(s_aluno *pplista){
-    if(pplista == NULL)
-        printf("Lista vazia\n");
-    else{
-        printf("Nome: %s\n", pplista->nome);
-        printf("RA: %d\n", pplista->ra);
-        printf("Nota: %f\n", pplista->nota);
-        imprime_lista(pplista->prox); //VAI DAR MERDA
-    }
-}
-            
-int main(void){
-    s_aluno lista;
-    lista.prox = NULL;
-    
-    s_aluno *Lista = NULL; //inicializando a lista
-    s_aluno *No = (s_aluno *)malloc(sizeof(s_aluno));
-    
-    int op;
-    
-    puts("Digite a opcao desejada:");
-    puts("1- Inserir cadastro");
-    puts("2- Remover cadastro");
-    puts("3- Buscar por RA");
-    puts("4- Buscar por Nome");
-    puts("Exibir dadps de todos alunos cadastrados");
-    
-    switch(op){
-    case 1:
-        printf("Digite o nome: ");
-        fgets(lista.nome, 52, stdin);
-        printf("Digite o RA: ");
-        scanf("%d",&lista.ra);
-        printf("Digite a nota: ");
-        scanf("%f",&lista.nota);
-        insere_aluno(Lista, &lista);
-        break;
-   }
-   
-   return 0;
- }
