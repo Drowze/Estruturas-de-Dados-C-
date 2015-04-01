@@ -22,7 +22,7 @@ s_aluno *cria_aluno(int novo_ra, char novo_nome[], float nova_nota){
     return novo_no;
 }
 
-void insere_aluno(s_aluno **pplista, s_aluno *no){ //insere struct no inicio
+void insere_aluno(s_aluno **pplista, s_aluno *no){ //insere struct no inici
     if(*pplista != NULL) // verifico se a lista nao ta vazia
         no->prox = *pplista; //se nao tiver, ponteiro do no aponta para onde apontava o ponteiro do inicio da lista
     *pplista = no; //lista agora aponta para o endereço para onde nó aponta
