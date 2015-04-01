@@ -67,10 +67,53 @@ void remove_aluno(s_aluno **pplista, int ra){
     }
 }
 
+void procura_ra(s_aluno **pplista, int ra){
+    s_aluno *aux = *pplista;
+    
+    if(aux == NULL)
+        printf("Erro: lista vazia");
+    else{
+        while(aux != NULL && aux->ra != ra){
+            aux = aux->prox;
+        }
+        if(aux == NULL){
+            printf("Elemento nao encontrado");
+        }
+        else{
+            printf("Aluno encontrado: \n");
+            printf("RA: %d\n", aux->ra);
+            printf("Nome :%s", aux->nome);
+            printf("Nota :%.2f\n", aux->nota);
+        }
+    }
+}
+
+void procura_nome(s_aluno **pplista, char nome[]){
+    s_aluno *aux = *pplista;
+    
+    if(aux == NULL)
+        printf("Erro: lista vazia");
+    else{
+        while(aux != NULL && strcmp(aux->nome, nome) != 0){
+            aux = aux->prox;
+        }
+        if(aux == NULL){
+            printf("Elemento nao encontrado");
+        }
+        else{
+            printf("Aluno encontrado: \n");
+            printf("RA: %d\n", aux->ra);
+            printf("Nome :%s", aux->nome);
+            printf("Nota :%.2f\n", aux->nota);
+        }
+    }
+} 
+
 int main(){
     int op;
     int ra; char nome[52]; float nota;
     s_aluno *Lista = NULL; //ponteiro pro começo da lista (que no começo é nula)
+    s_aluno *aux = NULL; //esse cara serve pra mostra as parada
     
     
     do{
@@ -96,6 +139,17 @@ int main(){
                 printf("Digite o RA do registro a ser removido: ");
                 scanf("%d", &ra);                
                 remove_aluno(&Lista, ra);
+                break;
+            case 3:
+                printf("Digite o RA a ser procurado");
+                scanf("%d", &ra);
+                procura_ra(&Lista, ra);
+                break;
+            case 4:
+                printf("Digite o nome a ser procurado");
+                __fpurge(stdin); 
+                fgets(nome, 52, stdin);
+                procura_nome(&Lista, nome);
                 break;
             case 5:
                 exibe_alunos(Lista);
