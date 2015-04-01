@@ -8,16 +8,16 @@ struct s_aluno{
     float nota;
     struct s_aluno *prox;
 };
-
 typedef struct s_aluno s_aluno;
 
-s_aluno cria_aluno(int novo_ra, char novo_nome[], float nova_nota){
-    s_aluno novo_no;
+s_aluno *cria_aluno(int novo_ra, char novo_nome[], float nova_nota){
+    s_aluno *novo_no;
+    novo_no = (s_aluno *)malloc(sizeof(s_aluno));
 
-    novo_no.ra = novo_ra;
-    strcpy(novo_no.nome, novo_nome);
-    novo_no.nota = nota_nota;
-    novo_no.prox = NULL;
+    novo_no->ra = novo_ra;
+    strcpy(novo_no->nome, novo_nome);
+    novo_no->nota = nova_nota;
+    novo_no->prox = NULL;
 
     return novo_no;
 }
@@ -44,7 +44,7 @@ int main(){
     strcpy(nome, "Rafael");
     nota = 10;
 
-    insere_aluno(&Lista, &(cria_aluno(ra,nome,nota)));
+    insere_aluno(&Lista, cria_aluno(ra,nome,nota));
     exibe_alunos(Lista);
     return 0;
 }
