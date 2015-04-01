@@ -11,16 +11,23 @@ struct s_aluno{
 
 typedef struct s_aluno s_aluno;
 
-void insere_aluno(s_aluno **pplista, int novo_ra, char novo_nome[], float nova_nota){ //insere struct no inicio
+s_aluno cria_aluno(int novo_ra, char novo_nome[], float nova_nota){
+    s_aluno novo_no;
 
-    s_aluno *no = (s_aluno *)malloc(sizeof(s_aluno));
-    no->ra = novo_ra;
-    strcpy(no->nome, novo_nome);
-    no->prox = NULL;
+    novo_no.ra = novo_ra;
+    strcpy(novo_no.nome, novo_nome);
+    novo_no.nota = nota_nota;
+    novo_no.prox = NULL;
+
+    return novo_no;
+}
+
+void insere_aluno(s_aluno **pplista, s_aluno *no){ //insere struct no inicio
+    
 
     if(*pplista != NULL) // verifico se a lista nao ta vazia
         no->prox = *pplista; //se nao tiver, ponteiro do no aponta para onde apontava o ponteiro do inicio da lista
-    pplista = &no; //lista agora aponta para onde o nó aponta
+    *pplista = no; //lista agora aponta para o endereço do nó
 }
 
 void exibe_alunos(s_aluno *pplista){
@@ -37,7 +44,7 @@ int main(){
     strcpy(nome, "Rafael");
     nota = 10;
 
-    insere_aluno(&Lista, ra, nome, nota);
+    insere_aluno(&Lista, &(cria_aluno(ra,nome,nota)));
     exibe_alunos(Lista);
     return 0;
 }
