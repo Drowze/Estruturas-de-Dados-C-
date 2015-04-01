@@ -30,11 +30,15 @@ void insere_aluno(s_aluno **pplista, s_aluno *no){ //insere struct no inicio
 
 void exibe_alunos(s_aluno *pplista){
     s_aluno *p;
-    for(p = pplista; p!=NULL; p = p->prox){
-        printf("RA: %d\n", p->ra);
-        printf("Nome: %s", p->nome);
-        printf("Nota: %f\n", p->nota);
-    }
+	p = pplista;
+	if(p == NULL)
+		printf("Erro, lista vazia\n");		
+    else
+		for(p = pplista; p!=NULL; p = p->prox){
+	        printf("RA: %d\n", p->ra);
+	        printf("Nome: %s", p->nome);
+	        printf("Nota: %.2f\n", p->nota);
+	    }
 }
 
 //REMOVE ALUNO NÃO FUNCIONA
@@ -71,11 +75,11 @@ int main(){
         scanf("%d", &op);
         switch(op){
             case 1: 
-                printf("Digite o RA");
+                printf("Digite o RA: ");
                 scanf("%d", &ra);
-                printf("Digite o nome");
+                printf("Digite o nome: ");
                 getchar(); fgets(nome, 52, stdin);
-                printf("Digite a nota");
+                printf("Digite a nota: ");
                 scanf("%f", &nota);
                 insere_aluno(&Lista, cria_aluno(ra,nome,nota)); //envio começo da lista e um novo nó criado on-the-fly
                 break;
