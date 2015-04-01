@@ -41,22 +41,31 @@ void exibe_alunos(s_aluno *pplista){
 	    }
 }
 
-//REMOVE ALUNO NÃO FUNCIONA
-/*
+			
+
+//Remove funciona. Preciso estudar essa merda.
 void remove_aluno(s_aluno **pplista, int ra){
     s_aluno *aux = *pplista;
+	s_aluno *anterior = NULL;
 
-    if(*pplista == NULL)
+    if(aux == NULL)
         printf("Erro: lista vazia");
-    else if(pplista->prox == NULL && aux->prox->ra == ra)
-        aux->prox = NULL;
-    else{
-        
-
-
-
+	else{
+		while(aux != NULL && aux->ra != ra){
+			anterior = aux;
+			aux = aux->prox;
+		}
+		if(aux == NULL)
+			printf("Elemento nao encontrado\n");
+		else{ //se ele cair, VAI REMOVER ALGUMA COISA
+			if(anterior == NULL)
+				*pplista = aux->prox;
+			else
+				anterior->prox = aux->prox;
+			printf("Removido com sucesso!");
+		}
     }
-}*/
+}
 
 int main(){
     int op;
@@ -83,8 +92,14 @@ int main(){
                 scanf("%f", &nota);
                 insere_aluno(&Lista, cria_aluno(ra,nome,nota)); //envio começo da lista e um novo nó criado on-the-fly
                 break;
+			case 2:
+				printf("Digite o RA do registro a ser removido: ");
+				scanf("%d", &ra);				
+				remove_aluno(&Lista, ra);
+				break;
             case 5:
                 exibe_alunos(Lista);
+				break;
         }
     }while(op != 0);
     return 0;
