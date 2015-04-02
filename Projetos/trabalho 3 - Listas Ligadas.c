@@ -5,7 +5,7 @@ Rodrigo Groot 14129027
 Vinicius Nunes 14119960
 */
 
-#include <stdio.h> //consigo usar __fpurge(stdin) sem warnings (warning acusado usando gcc -wall)
+#include <stdio_ext.h> //consigo usar __fpurge(stdin) sem warnings (warning acusado usando gcc -wall)
 #include <stdlib.h>
 #include <string.h>
 
