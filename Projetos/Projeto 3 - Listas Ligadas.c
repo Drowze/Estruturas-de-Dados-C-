@@ -5,7 +5,7 @@ Rodrigo Groot 14129027
 Vinicius Nunes 14119960
 */
 
-#include <stdio_ext.h> //consigo usar __fpurge(stdin) sem warnings (com stdio.h: warning acusado usando gcc -wall)
+#include <stdio_ext.h> //consigo usar __fpurge(stdin) sem warnings (warning acusado usando gcc -wall)
 #include <stdlib.h>
 #include <string.h>
 
@@ -55,10 +55,14 @@ void remove_aluno(s_aluno **pplista, int ra){
             __fpurge(stdin); getchar();
         }
         else{ //se ele cair, VAI REMOVER ALGUMA COISA
-            if(anterior == NULL)
+            if(anterior == NULL){
                 *pplista = aux->prox;
-            else
+                free(aux);
+            }
+            else{
                 anterior->prox = aux->prox;
+                free(aux);
+            }
             printf("Removido com sucesso!");
             printf("\nAperte enter para continuar\n");
             __fpurge(stdin); getchar();
@@ -124,6 +128,7 @@ void exibe_alunos(s_aluno *pplista){
     s_aluno *p;
     p = pplista;
     if(p == NULL){
+        printf("Erro: lista vazia\n");
         printf("\nAperte enter para continuar\n");
         __fpurge(stdin); getchar();
     }
