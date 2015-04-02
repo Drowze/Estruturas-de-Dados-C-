@@ -166,7 +166,7 @@ int main(){
                 break;
             case 2:
                 printf("Digite o RA do registro a ser removido: ");
-                scanf("%d", &ra);                
+                scanf("%d", &ra);
                 remove_aluno(&Lista, ra);
                 break;
             case 3:
