@@ -1,4 +1,4 @@
-/*/
+/*
 Leonardo Saito 14035265
 Rafael Gibim 14081673
 Rodrigo Groot 14129027
@@ -97,8 +97,8 @@ void remove_aluno(s_aluno **pplista, int ra){
     }
 }
 
-void procura_ra(s_aluno **pplista, int ra){
-    s_aluno *aux = *pplista;
+void procura_ra(s_aluno *pplista, int ra){
+    s_aluno *aux = pplista;
     
     if(aux == NULL){
         printf("Erro: lista vazia");
@@ -106,18 +106,18 @@ void procura_ra(s_aluno **pplista, int ra){
         __fpurge(stdin); getchar();
     }
     else{
-        while(aux != NULL && aux->ra != ra){
+        while(aux != NULL && aux->ra != ra && aux->ra < ra){
             aux = aux->prox;
         }
-        if(aux == NULL){
+        if(aux == NULL || aux->ra > ra){
             printf("Elemento nao encontrado\nAperte enter para continuar\n");
             __fpurge(stdin); getchar();
         }
         else{
             printf("\n\nAluno encontrado: \n");
             printf("RA: %d\n", aux->ra);
-            printf("Nome :%s", aux->nome);
-            printf("Nota :%.2f\n", aux->nota);
+            printf("Nome: %s", aux->nome);
+            printf("Nota: %.2f\n", aux->nota);
             printf("\nAperte enter para continuar\n");
             __fpurge(stdin); getchar();
         }
@@ -143,8 +143,8 @@ void procura_nome(s_aluno *pplista, char nome[]){
         else{
             printf("\n\nAluno encontrado: \n");
             printf("RA: %d\n", aux->ra);
-            printf("Nome :%s", aux->nome);
-            printf("Nota :%.2f\n", aux->nota);
+            printf("Nome: %s", aux->nome);
+            printf("Nota: %.2f\n", aux->nota);
             printf("\nAperte enter para continuar\n");
            __fpurge(stdin); getchar();
         }
@@ -204,7 +204,7 @@ int main(){
             case 3:
                 printf("Digite o RA a ser procurado: ");
                 scanf("%d", &ra);
-                procura_ra(&Lista, ra);
+                procura_ra(Lista, ra);
                 break;
             case 4:
                 printf("Digite o nome a ser procurado: ");
