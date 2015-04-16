@@ -1,4 +1,4 @@
-#include <stdio.h> //consigo usar __fpurge(stdin) sem warnings (warning acusado usando gcc -wall)
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
