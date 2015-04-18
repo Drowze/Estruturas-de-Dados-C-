@@ -67,44 +67,27 @@ void adicionar_musica(s_musica **lista, s_musica *novo_no){ //deve armazenar de 
     }
 }
 
-//Sobre a remoção e alteração: se titulo = NULL, remoção por artista
-void remove_musica(s_musica **lista, char titulo[], char artista[]){
+void remove_musica(s_musica **lista, s_musica *no_removido){
     s_musica *aux = *lista;
     s_musica *anterior = NULL;
 
-    if(titulo != NULL){
-        if(aux == NULL){
-            printf("Erro: lista vazia");
-            printf("\nAperte enter para continuar\n");
-            __fpurge(stdin); getchar();
+    while(aux != NULL && aux != no_removido){
+        anterior = aux;
+        aux = aux->prox;
+    }
+    if(aux == no_removido){ //sem erros?
+        if(anterior == NULL){
+            *lista = aux->prox;
+            free(aux);
         }
         else{
-            while(aux != NULL && (strcmp(aux->titulo, titulo) != 0) ){
-                anterior = aux;
-                aux = aux->prox;
-            }
-            if(aux == NULL){
-                printf("Elemento nao encontrado\n");
-                printf("\nAperte enter para continuar\n");
-                __fpurge(stdin); getchar();
-            }
-            else{ //se ele cair, VAI REMOVER ALGUMA COISA
-                if(anterior == NULL){ //pro caso de remover o primeiro termo
-                    *lista = aux->prox;
-                    free(aux);
-                }
-                else{ //pra outros termos quaisquer
-                    anterior->prox = aux->prox;
-                    free(aux);
-                }
-                printf("Removido com sucesso!");
-                printf("\nAperte enter para continuar\n");
-                __fpurge(stdin); getchar();
-            }
+            anterior->prox = aux->prox;
+            free(aux);
         }
+        printf("Removido com sucesso!");
+        printf("\nAperte enter para continuar\n");
+        __fpurge(stdin); getchar();
     }
-
-    else{} //remoção por artista, aqui o bagulho é loko
 }
 
 /*void altera_musica(s_musica **lista, char titulo[], char artista[]){
@@ -154,7 +137,32 @@ void remove_musica(s_musica **lista, char titulo[], char artista[]){
     else{} //remoção por artista, aqui o bagulho é loko
 }*/
 
-//s_musica *busca_musica_titulo(){}
+//Sobre a procura: se titulo = NULL, remoção por artista, caso contrário artista = NULL
+s_musica *busca_musica(s_musica *lista, char titulo[], char artista[]){
+    s_musica *aux = lista;
+    s_musica *anterior = NULL;
+
+    if(aux == NULL){
+        printf("Erro: lista vazia");
+        printf("\nAperte enter para continuar\n");
+        __fpurge(stdin); getchar();
+        return NULL;
+    }
+    else{
+        while(aux != NULL && strcmp(aux->titulo, titulo) < 0){
+            anterior = aux;
+            aux = aux->prox;
+        }
+        if(aux == NULL || strcmp(aux->titulo, titulo) != 0){
+            printf("Elemento nao encontrado\n");
+            printf("\nAperte enter para continuar\n");
+            __fpurge(stdin); getchar();
+            return NULL;
+        }
+        else
+            return aux;
+    }
+}
 
 //void busca_musica_artista(){} //opcional
 
@@ -209,11 +217,17 @@ int main(void){
             case 2: //falta opcional: remoção por artista (???)
                 printf("Digite o nome da musica a ser removida: ");
                 __fpurge(stdin); fgets(titulo, 32, stdin);
-                remove_musica(&Lista, titulo, NULL);
+                remove_musica(&Lista, busca_musica(Lista,titulo,NULL));
                 break;
             case 3:
                 printf("Digite o nome da musica a alterada: ");
                 __fpurge(stdin); fgets(titulo, 32, stdin);
+                break;
+            case 4:
+                printf("Digite o nome da musica a ser buscada");
+                __fpurge(stdin); fgets(titulo, 32, stdin);
+                busca_musica(Lista, titulo, NULL);
+                break;
             case 7:
                 exibe_lista(Lista);
                 break;
