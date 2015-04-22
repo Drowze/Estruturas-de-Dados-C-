@@ -32,7 +32,7 @@ s_musica *cria_musica(){
     return nova_musica;
 }
 
-/*void altera_musica(s_musica **lista, s_musica *no_alterado){
+void altera_musica(s_musica **lista, s_musica *no_alterado){
     s_musica *aux = *lista;
     s_musica *anterior = NULL;
     char op;
@@ -73,6 +73,7 @@ s_musica *cria_musica(){
             if(op == 's' || 'S'){
                 printf("Digite o novo genero: ");
                 __fpurge(stdin); fgets((*lista)->genero, 32, stdin);
+            }
         }
         else{
             printf("Deseja alterar o artista <s/n>? Artista atual: %s", aux->artista);
@@ -110,7 +111,7 @@ s_musica *cria_musica(){
         printf("\nAperte enter para continuar\n");
         __fpurge(stdin); getchar();
     }
-}*/
+}
 /* FIM DAS FUNÇÕES NÃO MODULARES */
 
 
