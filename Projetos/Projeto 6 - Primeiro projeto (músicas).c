@@ -31,6 +31,86 @@ s_musica *cria_musica(){
 
     return nova_musica;
 }
+
+/*void altera_musica(s_musica **lista, s_musica *no_alterado){
+    s_musica *aux = *lista;
+    s_musica *anterior = NULL;
+    char op;
+
+
+    while(aux != NULL && aux != no_alterado){
+        anterior = aux;
+        aux = aux->prox;
+    }
+    if(aux == no_alterado){ //sem erros?
+        if(anterior == NULL){
+            printf("Deseja alterar o artista <s/n>? Artista atual: %s", (*lista)->artista);
+            scanf("%c", &op);
+            if(op == 's' || 'S'){
+                printf("Digite o novo artista: ");
+                __fpurge(stdin); fgets((*lista)->artista, 32, stdin);
+            }
+            printf("Deseja alterar o titulo <s/n>? Titulo atual: %s", (*lista)->titulo);
+            scanf("%c", &op);
+            if(op == 's' || 'S'){
+                printf("Digite o novo titulo: ");
+                __fpurge(stdin); fgets((*lista)->titulo, 32, stdin);
+            }
+            printf("Deseja alterar o genero <s/n>? Genero atual: %s", (*lista)->genero);
+            scanf("%c", &op);
+            if(op == 's' || 'S'){
+                printf("Digite o novo genero: ");
+                __fpurge(stdin); fgets((*lista)->genero, 32, stdin);
+            }
+            printf("Deseja alterar o ano <s/n>? Genero atual: %d", (*lista)->ano);
+            scanf("%c", &op);
+            if(op == 's' || 'S'){
+                printf("Digite o novo genero: ");
+                __fpurge(stdin); fgets((*lista)->genero, 32, stdin);
+            }
+            printf("Deseja alterar o nome do arquivo <s/n>? Nome atual: %s", (*lista)->nome_arquivo);
+            scanf("%c", &op);
+            if(op == 's' || 'S'){
+                printf("Digite o novo genero: ");
+                __fpurge(stdin); fgets((*lista)->genero, 32, stdin);
+        }
+        else{
+            printf("Deseja alterar o artista <s/n>? Artista atual: %s", aux->artista);
+            scanf("%c", &op);
+            if(op == 's' || 'S'){
+                printf("Digite o novo artista: ");
+                __fpurge(stdin); fgets(aux->artista, 32, stdin);
+            }
+            printf("Deseja alterar o titulo <s/n>? Titulo atual: %s", aux->titulo);
+            scanf("%c", &op);
+            if(op == 's' || 'S'){
+                printf("Digite o novo titulo: ");
+                __fpurge(stdin); fgets(aux->titulo, 32, stdin);
+            }
+            printf("Deseja alterar o genero <s/n>? Genero atual: %s", aux->genero);
+            scanf("%c", &op);
+            if(op == 's' || 'S'){
+                printf("Digite o novo genero: ");
+                __fpurge(stdin); fgets(aux->genero, 32, stdin);
+            }
+            printf("Deseja alterar o ano <s/n>? Genero atual: %d", aux->ano);
+            scanf("%c", &op);
+            if(op == 's' || 'S'){
+                printf("Digite o novo genero: ");
+                __fpurge(stdin); fgets(aux->genero, 32, stdin);
+            }
+            printf("Deseja alterar o nome do arquivo <s/n>? Nome atual: %s", aux->nome_arquivo);
+            scanf("%c", &op);
+            if(op == 's' || 'S'){
+                printf("Digite o novo genero: ");
+                __fpurge(stdin); fgets(aux->genero, 32, stdin);
+            }
+        }
+        printf("Alterado com sucesso!");
+        printf("\nAperte enter para continuar\n");
+        __fpurge(stdin); getchar();
+    }
+}*/
 /* FIM DAS FUNÇÕES NÃO MODULARES */
 
 
@@ -90,53 +170,6 @@ void remove_musica(s_musica **lista, s_musica *no_removido){
     }
 }
 
-/*void altera_musica(s_musica **lista, char titulo[], char artista[]){
-    s_musica *aux = *lista;
-    s_musica *anterior = NULL;
-
-    if(titulo != NULL){
-        if(aux == NULL){
-            printf("Erro: lista vazia");
-            printf("\nAperte enter para continuar\n");
-            __fpurge(stdin); getchar();
-        }
-        else{
-            while(aux != NULL && (strcmp(aux->titulo, titulo) != 0) ){
-                anterior = aux;
-                aux = aux->prox;
-            }
-            if(aux == NULL){
-                printf("Elemento nao encontrado\n");
-                printf("\nAperte enter para continuar\n");
-                __fpurge(stdin); getchar();
-            }
-            else{ //se ele cair, ele achou
-                if(anterior == NULL){ //pro caso de modificar o primeiro termo
-                    printf("1: %s", (*lista)->nome_arquivo);
-                    printf("2: Artista: %s", (*lista)->artista);
-                    printf("3: Titulo: %s", (*lista)->titulo);
-                    printf("4: Genero: %s", (*lista)->genero);
-                    printf("5: Ano: %d\n", (*lista)->ano);
-
-                    puts("--------------------");
-                }
-                else{ //pra outros termos quaisquer
-                    printf("1: %s", anterior->nome_arquivo);
-                    printf("2: Artista: %s", anterior->artista);
-                    printf("3: Titulo: %s", anterior->titulo);
-                    printf("4: Genero: %s", anterior->genero);
-                    printf("5: Ano: %d\n", anterior->ano);
-                }
-                printf("Removido com sucesso!");
-                printf("\nAperte enter para continuar\n");
-                __fpurge(stdin); getchar();
-            }
-        }
-    }
-
-    else{} //remoção por artista, aqui o bagulho é loko
-}*/
-
 //Sobre a procura: se titulo = NULL, remoção por artista, caso contrário artista = NULL
 s_musica *busca_musica(s_musica *lista, char titulo[], char artista[]){
     s_musica *aux = lista;
@@ -190,7 +223,6 @@ void exibe_lista(s_musica *lista){
         printf("\nAperte enter para continuar\n");
         __fpurge(stdin); getchar();
     }
-
 }
 
 int main(void){
@@ -234,6 +266,4 @@ int main(void){
         }
 
     }while(op != 0);
-
-
 }
