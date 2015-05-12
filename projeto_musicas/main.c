@@ -13,8 +13,9 @@ Erro 1: Lista vazia
 int main(void){
     int op;
     char titulo[32];
-    s_musica *Lista = NULL; //Ponteiro para lista de músicas inicialmente vazia
-    s_musica *musica = NULL;
+    no_musica *Lista = NULL; //Ponteiro para lista de músicas inicialmente vazia
+    //s_musica *removidas = NULL;
+    no_musica *no = NULL;
 
     do{
         puts("\nDigite a opcao desejada:");
@@ -26,6 +27,7 @@ int main(void){
         puts("6- Recuperar músicas apagadas (EXTRA)");
         puts("7- Exibir dados de todas as musicas cadastradas");
         puts("\n0- Sair");
+        puts("-1 Debugger: Exibir Lista");
         scanf("%d", &op);
 
         switch(op){
@@ -43,13 +45,13 @@ int main(void){
             case 2:
                 printf("Digite o nome da musica a ser removida: ");
                 __fpurge(stdin); fgets(titulo, 32, stdin);
-                musica = busca_musica(Lista, titulo, NULL);
-                if(musica == NULL){
+                no = busca_musica(Lista, titulo, NULL);
+                if(no == NULL){
                     printf("Erro: elemento nao encontrado");
                     __fpurge(stdin); getchar();
                 }
                 else
-                    if(remove_musica(&Lista, musica) != 0){
+                    if(remove_musica(&Lista, no) != 0){
                         printf("Erro inesperado");
                         __fpurge(stdin); getchar();
                     }
@@ -58,29 +60,29 @@ int main(void){
             case 3:
                 printf("Digite o nome da musica a alterada: ");
                 __fpurge(stdin); fgets(titulo, 32, stdin);
-                musica = busca_musica(Lista, titulo, NULL);
-                if(musica == NULL){
+                no = busca_musica(Lista, titulo, NULL);
+                if(no == NULL){
                     printf("Erro: elemento nao encontrado");
                     __fpurge(stdin); getchar();
                 }
                 else
-                    if(altera_musica(&Lista, musica) != 0){
+                    if(altera_musica(&Lista, no) != 0){
                         printf("Erro inesperado");
                         __fpurge(stdin); getchar();
                     }
                 break;
 
             case 4:
-                printf("Digite o nome da musica a ser buscada");
+                printf("Digite o nome da musica a ser buscada: ");
                 __fpurge(stdin); fgets(titulo, 32, stdin);
-                musica = busca_musica(Lista, titulo, NULL);
-                if(musica == NULL){
+                no = busca_musica(Lista, titulo, NULL);
+                if(no == NULL){
                     printf("Erro: elemento nao encontrado");
                     __fpurge(stdin); getchar();
                 }
                 else{
-                    printf("Exibindo resultado: \n");
-                    exibe_musica(musica);
+                    printf("\nExibindo resultado: \n");
+                    exibe_musica(no->cadastro);
                     __fpurge(stdin); getchar();
                 }
                 break;
@@ -92,6 +94,8 @@ int main(void){
                     __fpurge(stdin); getchar();                    
                 }
                 break;
+            case -1:
+                debugger_exibe_lista(Lista);
         }
 
     }while(op != 0);
