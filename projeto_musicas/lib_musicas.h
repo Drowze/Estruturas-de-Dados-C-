@@ -8,7 +8,7 @@ struct s_musica{
     int ano;
     char nome_arquivo[32];
     //data de modificação?
-    struct s_musica *prox;
+    //struct s_musica *prox;
 };
 typedef struct s_musica s_musica;
 
@@ -17,17 +17,21 @@ struct no_musica{
     struct no_musica *prox;
     struct no_musica *ant;
 };
+typedef struct no_musica no_musica;
 
 /* Funções feias e não modulares */
-s_musica *cria_musica();
-int exibe_musica(s_musica *musica);
-int copia_musica(s_musica *destino, s_musica *origem);
-int altera_musica(s_musica **lista, s_musica *no_alterado);
+no_musica *cria_musica(); //CHECK
+void exibe_musica(s_musica musica); //CHECK
+//int copia_musica(no_musica *destino, no_musica *origem); //depreciated
+int altera_musica(no_musica **lista, no_musica *no_alterado); //CHECK
 
 /* Funções bonitas e modulares */
-int adicionar_musica(s_musica **lista, s_musica *novo_no);
-int remove_musica(s_musica **lista, s_musica *no_removido);
-s_musica *busca_musica(s_musica *lista, char titulo[], char artista[]);
-int exibe_lista(s_musica *lista);
+int adicionar_musica(no_musica **lista, no_musica *novo_no); //CHECK
+int remove_musica(no_musica **lista, no_musica *no_removido); //CHECK
+no_musica *busca_musica(no_musica *lista, char titulo[], char artista[]); //CHECK
+int exibe_lista(no_musica *lista); // CHECK
+
+/* Funções de debug */
+int debugger_exibe_lista(no_musica *Lista);
 
 #endif

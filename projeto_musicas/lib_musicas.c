@@ -3,158 +3,138 @@
 #include <string.h>
 #include "lib_musicas.h"
 
-/* FUNÇÕES RELACIONADAS A STRUCT */
-int exibe_musica(s_musica *musica){
-    if(musica != NULL){
-        printf("Arquivo: %s", musica->nome_arquivo);
-        printf("Artista: %s", musica->artista);
-        printf("Titulo: %s", musica->titulo);
-        printf("Genero: %s", musica->genero);
-        printf("Ano: %d\n", musica->ano);
-        return 0;
-    }
-    else return 1;
+/* FUNÇÕES QUE MEXEM COM A STRUCT CADASTRO */
+void exibe_musica(s_musica musica){
+    printf("Titulo: %s", musica.titulo);
+    printf("Artista: %s", musica.artista);
+    printf("Genero: %s", musica.genero);
+    printf("Ano: %d\n", musica.ano);
+    printf("Arquivo: %s", musica.nome_arquivo);
 }
 
-s_musica *cria_musica(){
-    s_musica *nova_musica;
-    nova_musica = (s_musica *)malloc(sizeof(s_musica));
+no_musica *cria_musica(){
+    no_musica *novo_no;
+    s_musica nova_musica;
+    novo_no = (no_musica *)malloc(sizeof(no_musica));
 
     printf("Digite o nome do artista: ");
-    __fpurge(stdin); fgets(nova_musica->artista, 32, stdin);
+    __fpurge(stdin); fgets(nova_musica.artista, 32, stdin);
     printf("Digite o titulo da faixa: ");
-    __fpurge(stdin); fgets(nova_musica->titulo, 32, stdin);
+    __fpurge(stdin); fgets(nova_musica.titulo, 32, stdin);
     printf("Digite o genero da faixa: ");
-    __fpurge(stdin); fgets(nova_musica->genero, 32, stdin);
+    __fpurge(stdin); fgets(nova_musica.genero, 32, stdin);
     printf("Digite o ano da faixa: ");
-    scanf("%d", &(nova_musica->ano));
+    scanf("%d", &nova_musica.ano);
     printf("Para finalizar, digite o nome do arquivo: ");
-    __fpurge(stdin); fgets(nova_musica->nome_arquivo, 32, stdin);
+    __fpurge(stdin); fgets(nova_musica.nome_arquivo, 32, stdin);
     
-    nova_musica->prox = NULL;
-    return nova_musica; //Possível erro: nova_musica = NULL ; Falta de memória.
+    novo_no->cadastro = nova_musica;
+    novo_no->prox = NULL;
+    novo_no->ant = NULL;
+    return novo_no; //Possível erro: nova_musica = NULL ; Falta de memória.
 }
 
-int copia_musica(s_musica *destino, s_musica *origem){
-    if(destino == NULL || origem == NULL)
-        return 1;
-    strcpy(destino->artista, origem->artista);
-    strcpy(destino->titulo, origem->titulo);
-    strcpy(destino->genero, origem->genero);
-    strcpy(destino->nome_arquivo, origem->nome_arquivo);
-    destino->ano = origem->ano;
-    // destino->ano = origem->ano;
-    return 0;
-}
-
-int altera_musica(s_musica **lista, s_musica *no_alterado){
+int altera_musica(no_musica **lista, no_musica *no_alterado){
     //Ideia:
     //1) copiar no_alterado -> novo_no
     //2) alterações no novo_no
     //3) remover no_alterado da lista
     //4) adicionar novo_no na lista
-    char op;
-    s_musica *novo_no = (s_musica *)malloc(sizeof(s_musica));
+    int op;
 
-    copia_musica(novo_no, no_alterado);
-    novo_no->prox = NULL;
+    no_musica *copia = (no_musica *)malloc(sizeof(no_musica));
+    copia->prox = NULL; copia->ant = NULL; copia->cadastro = no_alterado->cadastro;
 
-    //começa modificação:
-    printf("Nome do arquivo: %s", novo_no->nome_arquivo);
-
-    //artista:
-    printf("Deseja modificar o artista <s/n>? Artista atual: %s", novo_no->artista);
     do{
-        __fpurge(stdin); scanf("%c", &op);
-        if(op != 's' && op != 'S' && op != 'n' && op != 'N')
-            printf("Erro: opcao invalida");
-    }while(op != 's' && op != 'S' && op != 'n' && op != 'N');
-    if(op == 's' || op == 'S'){
-        __fpurge(stdin); fgets(novo_no->artista, 32, stdin);
-    }
-
-    //titulo:
-    printf("Deseja modificar o titulo <s/n>? Titulo atual: %s", novo_no->titulo);
-    do{
-        __fpurge(stdin); scanf("%c", &op);
-        if(op != 's' && op != 'S' && op != 'n' && op != 'N')
-            printf("Erro: opcao invalida");
-    }while(op != 's' && op != 'S' && op != 'n' && op != 'N');
-    if(op == 's' || op == 'S'){
-        __fpurge(stdin); fgets(novo_no->titulo, 32, stdin);
-    }
-
-    //genero:
-    printf("Deseja modificar o genero <s/n>? Genero atual: %s", novo_no->genero);
-    do{
-        __fpurge(stdin); scanf("%c", &op);
-        if(op != 's' && op != 'S' && op != 'n' && op != 'N')
-            printf("Erro: opcao invalida");
-    }while(op != 's' && op != 'S' && op != 'n' && op != 'N');
-    if(op == 's' || op == 'S'){
-        __fpurge(stdin); fgets(novo_no->genero, 32, stdin);
-    }
-
-    //ano:
-    printf("Deseja modificar o ano <s/n>? Ano atual: %d\n", novo_no->ano);
-    do{
-        __fpurge(stdin); scanf("%c", &op);
-        if(op != 's' && op != 'S' && op != 'n' && op != 'N')
-            printf("Erro: opcao invalida");
-    }while(op != 's' && op != 'S' && op != 'n' && op != 'N');
-    if(op == 's' || op == 'S'){
-        scanf("%d", &(novo_no->ano));
-    }
-
-    //nome do arquivo:
-    printf("Deseja modificar o nome do arquivo <s/n>? Nome atual: %s", novo_no->nome_arquivo);
-    do{
-        __fpurge(stdin); scanf("%c", &op);
-        if(op != 's' && op != 'S' && op != 'n' && op != 'N')
-            printf("Erro: opcao invalida");
-    }while(op != 's' && op != 'S' && op != 'n' && op != 'N');
-    if(op == 's' || op == 'S'){
-        __fpurge(stdin); fgets(novo_no->nome_arquivo, 32, stdin);
-    }
-
-    if(remove_musica(lista, no_alterado) != 0)
-        return 1;
-    else if(adicionar_musica(lista, novo_no) != 0)
-        return 1;
-    else 
-        return 0;
+        printf("\n Qual campo deseja alterar?\n");
+        printf("1- Artista \t\t| atual: %s", copia->cadastro.artista);
+        printf("2- Titulo \t\t| atual: %s", copia->cadastro.titulo);
+        printf("3- Genero \t\t| atual: %s", copia->cadastro.genero);
+        printf("4- Ano \t\t\t| atual: %d\n", copia->cadastro.ano);
+        printf("5- Nome do arquivo \t| atual: %s", copia->cadastro.nome_arquivo);
+        printf("\n 0: Salvar e terminar alteracoes\n");
+        printf("-1: Abandonar alteracoes\n");
+        scanf("%d", &op);
+        switch(op){
+            case 1:
+                printf("Digite o novo nome de artista: ");
+                __fpurge(stdin); fgets(copia->cadastro.artista, 32, stdin);
+                break;
+            case 2:
+                printf("Digite o novo titulo: ");
+                __fpurge(stdin); fgets(copia->cadastro.titulo, 32, stdin);
+                break;
+            case 3:
+                printf("Digite o novo genero: ");
+                __fpurge(stdin); fgets(copia->cadastro.genero, 32, stdin);
+                break;
+            case 4:
+                printf("Digite o novo ano: ");
+                scanf("%d", &(copia->cadastro.ano));
+                break;
+            case 5:
+                printf("Digite o novo nome do arquivo: ");
+                __fpurge(stdin); fgets(copia->cadastro.nome_arquivo, 32, stdin);
+                break;
+            case 0:
+                if(remove_musica(lista, no_alterado) != 0)
+                    return 1;
+                if(adicionar_musica(lista, copia) != 0)
+                    return 1;
+                return 0;
+            case -1:
+                return 0;
+        }
+    }while(op != 0);
+    return 1;
 }
-/* FIM DAS FUNÇÕES RELACIONADAS A STRUCT */
 
 //----------------------------------------//
 
-/* LOGICA DA LISTA (FUNÇÕES RELACIONADAS A LIGACAO DAS STRUCTS) */
-int adicionar_musica(s_musica **lista, s_musica *novo_no){ //deve armazenar de forma alfabética
-    s_musica *aux = *lista;
-    s_musica *anterior = NULL;
+/* FUNÇÕES QUE MEXEM COM OS NÓS */
+int adicionar_musica(no_musica **lista, no_musica *novo_no){ //deve armazenar de forma alfabética
+    /*
+        considerei eliminar o *anterior, mas isso me seria um problema
+        na hora de adicionar um elemento ao final da lista, já que aux
+        apontaria para NULL e eu não poderia fazer aux->ant->prox = novo_no,
+        como seria desejado.
+        Para resolver esse problema, o ideal seria implementar uma lista
+        circular, possivelmente com nó cabeça.
 
-    if(aux == NULL){ //caso não exista elementos antes dele
+        Fica pra próxima.
+    */
+
+    no_musica *aux = *lista;
+    no_musica *anterior = NULL;
+
+    if(aux == NULL){ //Anteriormente, lista vazia
         *lista = novo_no;
         novo_no->prox = NULL;
+        novo_no->ant = NULL;
         return 0;
     }
     else{
-        while(aux != NULL && strcmp(aux->titulo, novo_no->titulo) < 0){ //eqnt aux->titulo for anterior a no->titulo, ande; http://i.imgur.com/4Q7oKLG.png
+        while(aux != NULL && (strcmp(aux->cadastro.titulo, novo_no->cadastro.titulo) < 0 ) ) { //eqnt aux->titulo for anterior a no->titulo, ande; http://i.imgur.com/4Q7oKLG.png
             anterior = aux;
             aux = aux->prox;
         }
-        if(aux == NULL){ //se ele cai aqui, insere novo_no final
+        if(aux == NULL){ //Insere no final
             anterior->prox = novo_no;
+            novo_no->ant = anterior;
             novo_no->prox = NULL;
         }
         else{
             if(anterior == NULL){ //se ele cai aqui, insere antes do primeiro
-                novo_no->prox = aux;
                 *lista = novo_no;
+                novo_no->ant = NULL; //ou igual anterior
+                novo_no->prox = aux;
+                aux->ant = novo_no;
             }
             else{ //se ele cai aqui, pode ser em qualquer outro espaço
-                novo_no->prox = anterior->prox;
                 anterior->prox = novo_no;
+                novo_no->ant = anterior;
+                novo_no->prox = aux;
+                aux->ant = novo_no;
             }
         }
         return 0;
@@ -162,62 +142,85 @@ int adicionar_musica(s_musica **lista, s_musica *novo_no){ //deve armazenar de f
     return 1; //Erro: não foi possível adicionar na lista (?)
 }
 
-int remove_musica(s_musica **lista, s_musica *no_removido){
-    s_musica *aux = *lista;
-    s_musica *anterior = NULL;
+int remove_musica(no_musica **lista, no_musica *no_removido){
 
-    while(aux != NULL && aux != no_removido){
-        anterior = aux;
-        aux = aux->prox;
-    }
-    if(aux == no_removido){ //sem erros?
-        if(anterior == NULL){
-            *lista = aux->prox;
-            free(aux);
-        }
-        else{
-            anterior->prox = aux->prox;
-            free(aux);
-        }
+    if(no_removido == NULL) //é inesperado cair nesse erro
+        return 1;
+
+    if(no_removido == *lista){ //Checa se é o primeiro da lista
+        *lista = no_removido->prox; //lista aponta pro seguinte ao removido
+        if(no_removido->prox != NULL) //Checo se não é o único elemento na lista
+            no_removido->prox->ant = NULL; // (*ant) do seguinte ao removido aponta pra NULL (ele agora é o primeiro elemento)
+        free(no_removido);
         return 0;
     }
-    return 1;
-}
 
-//Sobre a procura: se titulo = NULL, remoção por artista, caso contrário artista = NULL
-s_musica *busca_musica(s_musica *lista, char titulo[], char artista[]){
-    s_musica *aux = lista;
-    s_musica *anterior = NULL;
-
-    if(aux == NULL)
-        return NULL;
-    else{
-        while(aux != NULL && strcmp(aux->titulo, titulo) < 0){
-            anterior = aux;
-            aux = aux->prox;
+    else 
+        if(no_removido->ant != NULL && no_removido->prox != NULL){ //Checo se tá no meio (não é primeiro nem último)
+            no_removido->ant->prox = no_removido->prox; // (*prox) do anterior ao removido aponta para o seguinte ao removido
+            no_removido->prox->ant = no_removido->ant; // (*ant) do seguinte ao removido aponta para o anterior ao removido
+            free(no_removido);
+            return 0;
         }
-        if(aux == NULL || strcmp(aux->titulo, titulo) != 0)
-            return NULL;
         else
-            return aux;
-    }
-}
+            if(no_removido->prox == NULL){ //Checo se é o último
+                no_removido->ant->prox = NULL; //(*prox) do anterior ao removido aponta pra NULL (ele agora é o último elemento)
+                free(no_removido);
+                return 0;
+            }
 
-//void busca_musica_artista(){} //opcional
+    return 1; //se chegou aqui deu um erro cabuloso na moral
+}
 
 //void recupera_musica(){} //opcional
 
-int exibe_lista(s_musica *lista){
-    s_musica *p;
-    p = lista;
+//Sobre a procura: se titulo = NULL, remoção por artista, caso contrário artista = NULL
+no_musica *busca_musica(no_musica *lista, char titulo[], char artista[]){
+    no_musica *aux = lista;
 
-    if(p == NULL)
+    if(aux == NULL)
+        return NULL;
+    while(aux != NULL && strcmp(aux->cadastro.titulo, titulo) < 0)
+        aux = aux->prox;
+
+    if(aux == NULL || strcmp(aux->cadastro.titulo, titulo) != 0)
+        return NULL;
+    else
+        return aux;
+    
+}
+
+int exibe_lista(no_musica *Lista){
+
+    if(Lista == NULL)
         return 1;
-    else{
-        for(p = lista; p!=NULL; p = p->prox){
-            exibe_musica(p);
-            printf("\t ---\n");
-        }
-        return 0;
+
+    while(Lista != NULL){
+        exibe_musica(Lista->cadastro);
+        printf("\t --- \n");
+        Lista = Lista->prox;
     }
+
+    return 0;
+}
+
+int debugger_exibe_lista(no_musica *Lista){
+
+    if(Lista == NULL)
+        return 1;
+
+    int i = 0;
+    while(Lista != NULL){
+        printf("Indice: %d\n", i);
+        printf("Endereco: %p\n", (void *) Lista);
+        printf("Endereco (struct): %p\n", (void *) &(Lista->cadastro));
+        printf("Nome da musica: %s", Lista->cadastro.titulo);
+        printf("Endereco->ant: %p\n", (void *) (Lista->ant));
+        printf("Endereco->prox: %p\n\n", (void *) (Lista->prox));
+        Lista = Lista->prox;
+        i++;
+    }
+    __fpurge(stdin); getchar();
+
+    return 0;
 }
