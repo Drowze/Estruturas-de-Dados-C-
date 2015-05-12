@@ -25,3 +25,4 @@ s_musica *busca_musica(s_musica *lista, char titulo[], char artista[]);
 int exibe_lista(s_musica *lista);
 
 #endif
+//teste
