@@ -18,7 +18,7 @@ int exibe_musica(s_musica *musica){
 
 s_musica *cria_musica(){
     s_musica *nova_musica;
-    nova_musica = (s_musica *)malloc(sizeof(nova_musica));
+    nova_musica = (s_musica *)malloc(sizeof(s_musica));
 
     printf("Digite o nome do artista: ");
     __fpurge(stdin); fgets(nova_musica->artista, 32, stdin);
@@ -63,7 +63,7 @@ int altera_musica(s_musica **lista, s_musica *no_alterado){
     printf("Nome do arquivo: %s", novo_no->nome_arquivo);
 
     //artista:
-    printf("Deseja modificar o artista? Artista atual: %s", novo_no->artista);
+    printf("Deseja modificar o artista <s/n>? Artista atual: %s", novo_no->artista);
     do{
         __fpurge(stdin); scanf("%c", &op);
         if(op != 's' && op != 'S' && op != 'n' && op != 'N')
@@ -74,7 +74,7 @@ int altera_musica(s_musica **lista, s_musica *no_alterado){
     }
 
     //titulo:
-    printf("Deseja modificar o titulo? Titulo atual: %s", novo_no->titulo);
+    printf("Deseja modificar o titulo <s/n>? Titulo atual: %s", novo_no->titulo);
     do{
         __fpurge(stdin); scanf("%c", &op);
         if(op != 's' && op != 'S' && op != 'n' && op != 'N')
@@ -85,7 +85,7 @@ int altera_musica(s_musica **lista, s_musica *no_alterado){
     }
 
     //genero:
-    printf("Deseja modificar o genero? Genero atual: %s", novo_no->genero);
+    printf("Deseja modificar o genero <s/n>? Genero atual: %s", novo_no->genero);
     do{
         __fpurge(stdin); scanf("%c", &op);
         if(op != 's' && op != 'S' && op != 'n' && op != 'N')
@@ -96,7 +96,7 @@ int altera_musica(s_musica **lista, s_musica *no_alterado){
     }
 
     //ano:
-    printf("Deseja modificar o ano? Ano atual: %d\n", novo_no->ano);
+    printf("Deseja modificar o ano <s/n>? Ano atual: %d\n", novo_no->ano);
     do{
         __fpurge(stdin); scanf("%c", &op);
         if(op != 's' && op != 'S' && op != 'n' && op != 'N')
@@ -107,7 +107,7 @@ int altera_musica(s_musica **lista, s_musica *no_alterado){
     }
 
     //nome do arquivo:
-    printf("Deseja modificar o nome do arquivo? Nome atual: %s", novo_no->nome_arquivo);
+    printf("Deseja modificar o nome do arquivo <s/n>? Nome atual: %s", novo_no->nome_arquivo);
     do{
         __fpurge(stdin); scanf("%c", &op);
         if(op != 's' && op != 'S' && op != 'n' && op != 'N')

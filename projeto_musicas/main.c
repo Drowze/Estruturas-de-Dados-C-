@@ -14,6 +14,7 @@ int main(void){
     int op;
     char titulo[32];
     s_musica *Lista = NULL; //Ponteiro para lista de músicas inicialmente vazia
+    s_musica *removidas = NULL;
     s_musica *musica = NULL;
 
     do{

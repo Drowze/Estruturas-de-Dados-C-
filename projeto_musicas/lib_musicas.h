@@ -12,6 +12,12 @@ struct s_musica{
 };
 typedef struct s_musica s_musica;
 
+struct no_musica{
+    struct s_musica cadastro;
+    struct no_musica *prox;
+    struct no_musica *ant;
+};
+
 /* Funções feias e não modulares */
 s_musica *cria_musica();
 int exibe_musica(s_musica *musica);
@@ -25,4 +31,3 @@ s_musica *busca_musica(s_musica *lista, char titulo[], char artista[]);
 int exibe_lista(s_musica *lista);
 
 #endif
-//teste
