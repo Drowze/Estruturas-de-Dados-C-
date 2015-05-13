@@ -7,8 +7,8 @@ struct s_musica{
     char genero[32];
     int ano;
     char nome_arquivo[32];
-    //data de modificação?
-    //struct s_musica *prox;
+    struct tm data_cria;
+    struct tm data_mod;
 };
 typedef struct s_musica s_musica;
 

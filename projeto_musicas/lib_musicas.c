@@ -1,6 +1,7 @@
 #include <stdio_ext.h> //consigo usar __fpurge(stdin) sem warnings (warning acusado usando gcc -wall)
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "lib_musicas.h"
 
 void imprime_string_sem_n(char string[]){
@@ -15,12 +16,12 @@ void exibe_musica(s_musica musica){
     printf("Genero: %s", musica.genero);
     printf("Ano: %d\n", musica.ano);
     printf("Arquivo: %s", musica.nome_arquivo);
+    printf("Data de criacao: %d/%d/%d %d:%d:%d\n", musica.data_cria.tm_mday, musica.data_cria.tm_mon+1, musica.data_cria.tm_year+1900, musica.data_cria.tm_hour, musica.data_cria.tm_min, musica.data_cria.tm_sec);
+    printf("Data de modificacao: %d/%d/%d %d:%d:%d\n", musica.data_mod.tm_mday, musica.data_mod.tm_mon+1, musica.data_mod.tm_year+1900, musica.data_mod.tm_hour, musica.data_mod.tm_min, musica.data_mod.tm_sec);
 }
 
 no_musica *cria_musica(){
-    no_musica *novo_no;
     s_musica nova_musica;
-    novo_no = (no_musica *)malloc(sizeof(no_musica));
 
     printf("Digite o nome do artista: ");
     __fpurge(stdin); fgets(nova_musica.artista, 32, stdin);
@@ -32,11 +33,17 @@ no_musica *cria_musica(){
     scanf("%d", &nova_musica.ano);
     printf("Para finalizar, digite o nome do arquivo: ");
     __fpurge(stdin); fgets(nova_musica.nome_arquivo, 32, stdin);
-    
+
+    time_t t = time(NULL);
+    nova_musica.data_cria = *(localtime ( &t ) );
+    nova_musica.data_mod = nova_musica.data_cria;
+
+    no_musica *novo_no;
+    novo_no = (no_musica *)malloc(sizeof(no_musica));
     novo_no->cadastro = nova_musica;
     novo_no->prox = NULL;
     novo_no->ant = NULL;
-    return novo_no; //Possível erro: nova_musica = NULL ; Falta de memória.
+    return novo_no;
 }
 
 int altera_musica(no_musica **lista, no_musica *no_alterado){
@@ -46,6 +53,7 @@ int altera_musica(no_musica **lista, no_musica *no_alterado){
     //3) remover no_alterado da lista
     //4) adicionar copia na lista
     int op;
+    time_t t; //usada mais tarde para manipular a hora de modificação
 
     no_musica *copia = (no_musica *)malloc(sizeof(no_musica));
     copia->prox = NULL; copia->ant = NULL; copia->cadastro = no_alterado->cadastro;
@@ -82,6 +90,8 @@ int altera_musica(no_musica **lista, no_musica *no_alterado){
                 __fpurge(stdin); fgets(copia->cadastro.nome_arquivo, 32, stdin);
                 break;
             case 0:
+                t = time(NULL);
+                copia->cadastro.data_mod = *(localtime ( &t ) );
                 if(hard_delete(lista, no_alterado) != 0)
                     return 1;
                 if(adicionar_musica(lista, copia) != 0)

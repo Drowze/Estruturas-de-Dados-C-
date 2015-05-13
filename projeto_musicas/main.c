@@ -5,10 +5,15 @@ Erro 1: Lista vazia
 */
 
  //consigo usar __fpurge(stdin) sem warnings (warning acusado usando gcc -wall)
+#include <time.h>
 #include <stdio_ext.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <stdint.h>
 #include "lib_musicas.h"
+
+
 
 int main(void){
     int op;
@@ -83,7 +88,7 @@ int main(void){
                         printf("Digite o titulo da musica do(a) \""); imprime_string_sem_n(artista); printf("\" a ser removida: ");
                         fgets(titulo, 32, stdin);
                         no = busca_musica(Lista, titulo, artista);
-                        
+
                         if(no == NULL)
                             printf("Nenhum elemento encontrado");
                         else
