@@ -24,10 +24,12 @@ no_musica *cria_musica(); //CHECK
 void exibe_musica(s_musica musica); //CHECK
 //int copia_musica(no_musica *destino, no_musica *origem); //depreciated
 int altera_musica(no_musica **lista, no_musica *no_alterado); //CHECK
+void imprime_string_sem_n(char string[]);
 
 /* Funções bonitas e modulares */
 int adicionar_musica(no_musica **lista, no_musica *novo_no); //CHECK
-int remove_musica(no_musica **lista, no_musica *no_removido); //CHECK
+int remove_musica(no_musica **lista, no_musica **lista_removidos, no_musica *no_removido); //CHECK
+int hard_delete(no_musica **lista, no_musica *no_removido);
 no_musica *busca_musica(no_musica *lista, char titulo[], char artista[]); //CHECK
 int exibe_lista(no_musica *lista, char artista[]); // CHECK
 
