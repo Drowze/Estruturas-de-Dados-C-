@@ -12,9 +12,8 @@ Erro 1: Lista vazia
 
 int main(void){
     int op;
-    char titulo[32];
+    char titulo[32], artista[32];
     no_musica *Lista = NULL; //Ponteiro para lista de músicas inicialmente vazia
-    //s_musica *removidas = NULL;
     no_musica *no = NULL;
 
     do{
@@ -23,7 +22,7 @@ int main(void){
         puts("2- Remover musica");
         puts("3- Alterar musica");
         puts("4- Buscar musica pelo titulo");
-        puts("5- Buscar musicas pelo artista (EXTRA)");
+        puts("5- Buscar musicas pelo artista");
         puts("6- Recuperar músicas apagadas (EXTRA)");
         puts("7- Exibir dados de todas as musicas cadastradas");
         puts("\n0- Sair");
@@ -87,9 +86,23 @@ int main(void){
                 }
                 break;
 
+            case 5:
+                printf("Digite o nome do artista: ");
+                __fpurge(stdin); fgets(artista, 32, stdin);
+                no = busca_musica(Lista, NULL, artista);
+                if(no == NULL){
+                    printf("Erro: nao foi encontrado nenhum elemento");
+                    __fpurge(stdin); getchar();
+                }
+                else{
+                    printf("\nResultados: %d \n", exibe_lista(Lista, artista));
+                    __fpurge(stdin); getchar();
+                }
+                break;
+
             case 7:
                 printf("Exibindo resultados... \n");
-                if(exibe_lista(Lista) == 1){
+                if(exibe_lista(Lista, NULL) != 0){
                     printf("Erro: Lista vazia");
                     __fpurge(stdin); getchar();                    
                 }

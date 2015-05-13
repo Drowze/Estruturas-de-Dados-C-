@@ -29,7 +29,7 @@ int altera_musica(no_musica **lista, no_musica *no_alterado); //CHECK
 int adicionar_musica(no_musica **lista, no_musica *novo_no); //CHECK
 int remove_musica(no_musica **lista, no_musica *no_removido); //CHECK
 no_musica *busca_musica(no_musica *lista, char titulo[], char artista[]); //CHECK
-int exibe_lista(no_musica *lista); // CHECK
+int exibe_lista(no_musica *lista, char artista[]); // CHECK
 
 /* Funções de debug */
 int debugger_exibe_lista(no_musica *Lista);

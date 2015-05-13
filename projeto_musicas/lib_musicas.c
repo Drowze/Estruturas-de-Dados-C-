@@ -36,10 +36,10 @@ no_musica *cria_musica(){
 
 int altera_musica(no_musica **lista, no_musica *no_alterado){
     //Ideia:
-    //1) copiar no_alterado -> novo_no
-    //2) alterações no novo_no
+    //1) copiar no_alterado -> copia
+    //2) alterações no copia
     //3) remover no_alterado da lista
-    //4) adicionar novo_no na lista
+    //4) adicionar copia na lista
     int op;
 
     no_musica *copia = (no_musica *)malloc(sizeof(no_musica));
@@ -177,35 +177,65 @@ int remove_musica(no_musica **lista, no_musica *no_removido){
 //Sobre a procura: se titulo = NULL, remoção por artista, caso contrário artista = NULL
 no_musica *busca_musica(no_musica *lista, char titulo[], char artista[]){
     no_musica *aux = lista;
-
     if(aux == NULL)
         return NULL;
-    while(aux != NULL && strcmp(aux->cadastro.titulo, titulo) < 0)
-        aux = aux->prox;
 
-    if(aux == NULL || strcmp(aux->cadastro.titulo, titulo) != 0)
-        return NULL;
-    else
-        return aux;
+    if(titulo != NULL && artista != NULL){ //busca uma musica de um artista especifico
+    }
     
+    else if(titulo != NULL){ //busca musica pelo titulo
+        while(aux != NULL && strcmp(aux->cadastro.titulo, titulo) < 0)
+            aux = aux->prox;
+
+        if(aux == NULL || strcmp(aux->cadastro.titulo, titulo) != 0)
+            return NULL;
+        else
+            return aux;
+    }
+
+    //busca musica pelo artista. Vai retornar o primeiro nó do artista correspondente
+    //útil para checar se existe pelo menos uma ocorrência
+    else{ 
+        while( (aux != NULL) && (strcmp(aux->cadastro.artista, artista) != 0) )
+            aux = aux->prox;
+
+        if(aux == NULL || strcmp(aux->cadastro.artista, artista) != 0)
+            return NULL;
+        else
+            return aux;
+    }
+
+    return NULL;
 }
 
-int exibe_lista(no_musica *Lista){
-
+int exibe_lista(no_musica *Lista, char artista[]){
     if(Lista == NULL)
         return 1;
 
-    while(Lista != NULL){
-        exibe_musica(Lista->cadastro);
-        printf("\t --- \n");
-        Lista = Lista->prox;
-    }
+    int i = 0;
 
+    if(artista == NULL){
+        while(Lista != NULL){
+            exibe_musica(Lista->cadastro);
+            printf("\t --- \n");
+            Lista = Lista->prox;
+        }
+    }
+    else{ //exibir músicas de um artista específico
+        while(Lista != NULL){
+            if(strcmp(Lista->cadastro.artista, artista) == 0){
+                exibe_musica(Lista->cadastro);
+                i++;
+                printf("\t --- \n");
+            }
+            Lista = Lista->prox;
+        }
+        return i;
+    }
     return 0;
 }
 
 int debugger_exibe_lista(no_musica *Lista){
-
     if(Lista == NULL)
         return 1;
 
