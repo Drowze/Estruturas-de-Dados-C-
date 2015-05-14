@@ -5,7 +5,6 @@
 #include "lib_musicas.h"
 
 void imprime_string_sem_n(char string[]){
-<<<<<<< HEAD
     int i;
     for(i=0; string[i] != '\n'; i++)
         printf("%c", string[i]);
@@ -52,23 +51,6 @@ int le_arquivo(no_musica **Lista){
 
 /* FUNÇÕES QUE MEXEM COM A STRUCT CADASTRO */
 
-=======
-    for(int i=0; string[i] != '\n'; i++)
-        printf("%c", string[i]);
-}
-
-/* FUNÇÕES QUE MEXEM COM A STRUCT CADASTRO */
-void exibe_musica(s_musica musica){
-    printf("Titulo: %s", musica.titulo);
-    printf("Artista: %s", musica.artista);
-    printf("Genero: %s", musica.genero);
-    printf("Ano: %d\n", musica.ano);
-    printf("Arquivo: %s", musica.nome_arquivo);
-    printf("Data de criacao: %d/%d/%d %d:%d:%d\n", musica.data_cria.tm_mday, musica.data_cria.tm_mon+1, musica.data_cria.tm_year+1900, musica.data_cria.tm_hour, musica.data_cria.tm_min, musica.data_cria.tm_sec);
-    printf("Data de modificacao: %d/%d/%d %d:%d:%d\n", musica.data_mod.tm_mday, musica.data_mod.tm_mon+1, musica.data_mod.tm_year+1900, musica.data_mod.tm_hour, musica.data_mod.tm_min, musica.data_mod.tm_sec);
-}
-
->>>>>>> origin/master
 no_musica *cria_musica(){
     s_musica nova_musica;
 
@@ -88,7 +70,6 @@ no_musica *cria_musica(){
     nova_musica.data_mod = nova_musica.data_cria;
 
     no_musica *novo_no;
-<<<<<<< HEAD
     novo_no = struct_para_no(nova_musica);
     return novo_no;
 }
@@ -113,13 +94,6 @@ void exibe_musica(s_musica musica){
     printf("║ Data de criacao....: %d/%d/%d %d:%d:%d ║\n", musica.data_cria.tm_mday, musica.data_cria.tm_mon+1, musica.data_cria.tm_year+1900, musica.data_cria.tm_hour, musica.data_cria.tm_min, musica.data_cria.tm_sec);
     printf("║ Data de modificacao: %d/%d/%d %d:%d:%d ║\n", musica.data_mod.tm_mday, musica.data_mod.tm_mon+1, musica.data_mod.tm_year+1900, musica.data_mod.tm_hour, musica.data_mod.tm_min, musica.data_mod.tm_sec);
     printf("╚═════════════════════════════════════════╝\n");
-=======
-    novo_no = (no_musica *)malloc(sizeof(no_musica));
-    novo_no->cadastro = nova_musica;
-    novo_no->prox = NULL;
-    novo_no->ant = NULL;
-    return novo_no;
->>>>>>> origin/master
 }
 
 int altera_musica(no_musica **lista, no_musica *no_alterado){
@@ -303,15 +277,8 @@ int remove_musica(no_musica **lista, no_musica **lista_removidos, no_musica *no_
                 return 0;
             }
 
-<<<<<<< HEAD
     return 1; //é inesperado chegar aqui
 }
-=======
-    return 1; //se chegou aqui deu um erro cabuloso na moral
-}
-
-//void recupera_musica(){} //opcional
->>>>>>> origin/master
 
 //Sobre a procura: se titulo = NULL, remoção por artista, caso contrário artista = NULL
 no_musica *busca_musica(no_musica *lista, char titulo[], char artista[]){
@@ -332,7 +299,6 @@ no_musica *busca_musica(no_musica *lista, char titulo[], char artista[]){
     else if(titulo != NULL){ //busca musica pelo titulo
         while(aux != NULL && strcmp(aux->cadastro.titulo, titulo) < 0)
             aux = aux->prox;
-<<<<<<< HEAD
 
         if(aux == NULL || strcmp(aux->cadastro.titulo, titulo) != 0)
             return NULL;
@@ -355,30 +321,6 @@ no_musica *busca_musica(no_musica *lista, char titulo[], char artista[]){
     return NULL;
 }
 
-=======
-
-        if(aux == NULL || strcmp(aux->cadastro.titulo, titulo) != 0)
-            return NULL;
-        else
-            return aux;
-    }
-
-    //busca musica pelo artista. Vai retornar o primeiro nó do artista correspondente
-    //útil para checar se existe pelo menos uma ocorrência
-    else{ 
-        while( (aux != NULL) && (strcmp(aux->cadastro.artista, artista) != 0) )
-            aux = aux->prox;
-
-        if(aux == NULL || strcmp(aux->cadastro.artista, artista) != 0)
-            return NULL;
-        else
-            return aux;
-    }
-
-    return NULL;
-}
-
->>>>>>> origin/master
 int exibe_lista(no_musica *Lista, char artista[]){
     if(Lista == NULL)
         return 1;
@@ -388,12 +330,8 @@ int exibe_lista(no_musica *Lista, char artista[]){
     if(artista == NULL){
         while(Lista != NULL){
             exibe_musica(Lista->cadastro);
-<<<<<<< HEAD
             if(Lista->prox != NULL) 
                 printf("\t --- \n");
-=======
-            printf("\t --- \n");
->>>>>>> origin/master
             Lista = Lista->prox;
         }
     }
@@ -402,12 +340,8 @@ int exibe_lista(no_musica *Lista, char artista[]){
             if(strcmp(Lista->cadastro.artista, artista) == 0){
                 exibe_musica(Lista->cadastro);
                 i++;
-<<<<<<< HEAD
                 if(Lista->prox != NULL) 
                     printf("\t --- \n");
-=======
-                printf("\t --- \n");
->>>>>>> origin/master
             }
             Lista = Lista->prox;
         }
