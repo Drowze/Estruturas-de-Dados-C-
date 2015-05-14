@@ -1,7 +1,16 @@
 /*
-Erros:
-Erro -1: Erro desconhecido
-Erro 1: Lista vazia
+Integrante 1 - Nome: Rafael Gibim               RA: 14081673
+Integrante 2 - Nome: Rodrigo Groot              RA: 14129027
+Integrante 3 - Nome: Leonardo Saito             RA: 14035265
+Integrante 4 - Nome: Vinicius Nunes             RA: 14035265
+Resultados obtidos:
+Projeto básico: 100 % concluído
+(X) Opcional 1 
+(X) Opcional 2 
+(X) Opcional 3 - Obs: Não há opção de cor
+(X) Opcional 4 - Obs: Comportamento inesperado em alguns momentos
+( ) Opcional 5 - Obs: 
+(X) Opcional 6
 */
 
  //consigo usar __fpurge(stdin) sem warnings (warning acusado usando gcc -wall)
@@ -22,41 +31,58 @@ int main(void){
     no_musica *Lista = NULL; //Ponteiro para lista de músicas inicialmente vazia
     no_musica *ListaRemovidos = NULL; //ponteiro para "lixeira"
     no_musica *no = NULL;
+    no_musica *no2 = NULL;
 
     le_arquivo(&Lista);
 
     do{
-        puts("\nDigite a opcao desejada:");
-        puts("1- Inserir musica");
-        puts("2- Remover musica");
-        puts("3- Alterar musica");
-        puts("4- Buscar musica pelo titulo");
-        puts("5- Buscar musicas pelo artista");
-        puts("6- Recuperar músicas apagadas");
-        puts("7- Exibir dados de todas as musicas cadastradas");
-        puts("\n0- Sair");
-        puts("-1 Debugger: Exibir Lista");
+        system("clear");
+        printf("\n╔═════════════════════════════════════════════════╗\n");
+        printf("║            Digite a opcao desejada:             ║\n");
+        printf("╠═════════════════════════════════════════════════╣\n");
+        printf("║ 1- Inserir musica                               ║\n");
+        printf("║ 2- Remover musica                               ║\n");
+        printf("║ 3- Alterar musica                               ║\n");
+        printf("║ 4- Buscar musica pelo titulo                    ║\n");
+        printf("║ 5- Buscar musicas pelo artista                  ║\n");
+        printf("║ 6- Recuperar músicas apagadas                   ║\n");
+        printf("║ 7- Exibir dados de todas as musicas cadastradas ║\n");
+        printf("║                                                 ║\n");
+        printf("║ 0- Sair                                         ║\n");
+        printf("╚═════════════════════════════════════════════════╝\n");
+        //puts("-1 Debugger: Exibir Lista");
         scanf("%d", &op);
 
         switch(op){
             case 1:
                 if(adicionar_musica(&Lista, cria_musica()) != 0){
-                    printf("Erro: impossivel adicionar a musica.");
+                    printf("╔═════════════════════════════════════╗\n");
+                    printf("║ Erro: impossivel adicionar a musica ║\n");
+                    printf("╚═════════════════════════════════════╝\n");
                     __fpurge(stdin); getchar();
                 }
                 else{
-                    printf("Musica adicionada com sucesso.");
+                    printf("╔═══════════════════════════════╗\n");
+                    printf("║ Musica adicionada com sucesso ║\n");
+                    printf("╚═══════════════════════════════╝\n");
                     __fpurge(stdin); getchar();
                 }
                 break;
 
             case 2:
                 do{
-                    puts("\n1- Remover por titulo");
-                    puts("2- Remover por artista");
+                    printf("╔════════════════════════╗\n");
+                    printf("║          Opcao         ║\n");
+                    printf("╠════════════════════════╣\n");
+                    printf("║ 1- Remover por titulo  ║\n");
+                    printf("║ 2- Remover por artista ║\n");
+                    printf("╚════════════════════════╝\n");
                     scanf("%d", &op);
-                    if(op != 1 && op != 2)
-                        puts("Erro: opcao invalida");
+                    if(op != 1 && op != 2){
+                        printf("╔══════════════════════╗\n");
+                        printf("║ Erro: opcao invalida ║\n");
+                        printf("╚══════════════════════╝\n");
+                    }
                 }while(op != 1 && op != 2);
                 
                 if(op == 1){
@@ -64,15 +90,22 @@ int main(void){
                     __fpurge(stdin); fgets(titulo, 32, stdin);
                     no = busca_musica(Lista, titulo, NULL);
                     if(no == NULL){
-                        printf("Erro: elemento nao encontrado");
+                        printf("╔══════════════════════════════════╗\n");
+                        printf("║ Erro: nenhum elemento encontrado ║\n");
+                        printf("╚══════════════════════════════════╝\n");
                         __fpurge(stdin); getchar();
                     }
                     else
                         if(remove_musica(&Lista, &ListaRemovidos, no) != 0){
-                            printf("Erro inesperado");
+                            printf("╔═════════════════╗\n");
+                            printf("║ Erro inesperado ║\n");
+                            printf("╚═════════════════╝\n");
                         }
-                        else
-                            printf("Removido com sucesso");
+                        else{
+                            printf("╔══════════════════════╗\n");
+                            printf("║ Removido com sucesso ║\n");
+                            printf("╚══════════════════════╝\n");
+                        }
                         __fpurge(stdin); getchar();
                 }
 
@@ -82,7 +115,9 @@ int main(void){
                     no = busca_musica(Lista, NULL, artista);
 
                     if(no == NULL){
-                        printf("Erro: nenhum elemento encontrado");
+                        printf("╔════════════════════════════╗\n");
+                        printf("║ Nenhum elemento encontrado ║\n");
+                        printf("╚════════════════════════════╝\n");
                         __fpurge(stdin); getchar();
                     }
                     else{
@@ -92,13 +127,22 @@ int main(void){
                         fgets(titulo, 32, stdin);
                         no = busca_musica(Lista, titulo, artista);
 
-                        if(no == NULL)
-                            printf("Nenhum elemento encontrado");
+                        if(no == NULL){
+                            printf("╔════════════════════════════╗\n");
+                            printf("║ Nenhum elemento encontrado ║\n");
+                            printf("╚════════════════════════════╝\n");
+                        }
                         else
-                            if(remove_musica(&Lista, &ListaRemovidos, no) != 0)
-                                printf("Erro inesperado");
-                            else
-                                printf("Removido com sucesso");
+                            if(remove_musica(&Lista, &ListaRemovidos, no) != 0){
+                                printf("╔═════════════════╗\n");
+                                printf("║ Erro inesperado ║\n");
+                                printf("╚═════════════════╝\n");
+                            }
+                            else{
+                                printf("╔══════════════════════╗\n");
+                                printf("║ Removido com sucesso ║\n");
+                                printf("╚══════════════════════╝\n");
+                            }
                         __fpurge(stdin); getchar();
                     }
                 }
@@ -109,12 +153,16 @@ int main(void){
                 __fpurge(stdin); fgets(titulo, 32, stdin);
                 no = busca_musica(Lista, titulo, NULL);
                 if(no == NULL){
-                    printf("Erro: elemento nao encontrado");
+                    printf("╔═══════════════════════════════╗\n");
+                    printf("║ Erro: elemento nao encontrado ║\n");
+                    printf("╚═══════════════════════════════╝\n");
                     __fpurge(stdin); getchar();
                 }
                 else
                     if(altera_musica(&Lista, no) != 0){
-                        printf("Erro inesperado");
+                        printf("╔═════════════════╗\n");
+                        printf("║ Erro inesperado ║\n");
+                        printf("╚═════════════════╝\n");
                         __fpurge(stdin); getchar();
                     }
                 break;
@@ -124,11 +172,15 @@ int main(void){
                 __fpurge(stdin); fgets(titulo, 32, stdin);
                 no = busca_musica(Lista, titulo, NULL);
                 if(no == NULL){
-                    printf("Erro: elemento nao encontrado");
+                    printf("╔═══════════════════════════════╗\n");
+                    printf("║ ERRO: elemento nao encontrado ║\n");
+                    printf("╚═══════════════════════════════╝\n");
                     __fpurge(stdin); getchar();
                 }
                 else{
-                    printf("\nExibindo resultado: \n");
+                    printf("╔═════════════════════╗\n");
+                    printf("║ Exibindo resultados ║\n");
+                    printf("╚═════════════════════╝\n");
                     exibe_musica(no->cadastro);
                     __fpurge(stdin); getchar();
                 }
@@ -139,7 +191,9 @@ int main(void){
                 __fpurge(stdin); fgets(artista, 32, stdin);
                 no = busca_musica(Lista, NULL, artista);
                 if(no == NULL){
-                    printf("Erro: nao foi encontrado nenhum elemento");
+                    printf("╔══════════════════════════════════════════╗\n");
+                    printf("║ ERRO: nao foi encontrado nenhum elemento ║\n");
+                    printf("╚══════════════════════════════════════════╝\n");
                     __fpurge(stdin); getchar();
                 }
                 else{
@@ -149,35 +203,52 @@ int main(void){
                 break;
 
             case 6:
-                printf("Musicas previamente apagadas... \n");
+                printf("╔══════════════════════════════╗\n");
+                printf("║ Musicas previamente apagadas ║\n");
+                printf("╚══════════════════════════════╝\n");
                 if(exibe_lista(ListaRemovidos, NULL) != 0){
-                    printf("Erro: nenhuma musica foi apagada");
+                    printf("╔══════════════════════════════════╗\n");
+                    printf("║ ERRO: nenhuma musica foi apagada ║\n");
+                    printf("╚══════════════════════════════════╝\n");
                     __fpurge(stdin); getchar();                    
                 }
                 else{
                     printf("Digite o titulo da musica que deseja recuperar: ");
                     __fpurge(stdin); fgets(titulo, 32, stdin);
                     no = busca_musica(ListaRemovidos, titulo, NULL);
-                    adicionar_musica(&Lista, no);
-                    hard_delete(&ListaRemovidos, no);
+                    if(no == NULL){
+                    printf("╔═════════════════════════════╗\n");
+                    printf("║ ERRO: musica nao encontrada ║\n");
+                    printf("╚═════════════════════════════╝\n");
+                    }
+                    else{
+                        adicionar_musica(&Lista, no);
+
+                        if(ListaRemovidos != NULL)
+                            hard_delete(&ListaRemovidos, busca_musica(ListaRemovidos, titulo, NULL));
+                        else
+                            printf("Erro inesperado");
+                    }
                     
                 }
                 break;
 
             case 7:
-                printf("Exibindo resultados... \n");
+                printf("\n╔═════════════════════╗\n");
+                printf("║ Exibindo resultados ║\n");
+                printf("╚═════════════════════╝\n");
                 if(exibe_lista(Lista, NULL) != 0){
-                    printf("Erro: Lista vazia");
-                    __fpurge(stdin); getchar();                    
+                    printf("╔═════════════════════╗\n");
+                    printf("║  ERRO: Lista vazia  ║\n");
+                    printf("╚═════════════════════╝\n");
                 }
+                __fpurge(stdin); getchar();        
                 break;
-            case -1:
-                debugger_exibe_lista(Lista);
+            // case -1:
+            //     debugger_exibe_lista(ListaRemovidos);
         }
 
     }while(op != 0);
     if(escreve_no_arquivo(Lista) != 0)
-        printf("Erro");
-    else 
-        printf("ue");
+        printf("Erro: impossivel salvar registros");
 }

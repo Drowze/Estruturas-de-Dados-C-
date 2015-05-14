@@ -37,35 +37,19 @@ int le_arquivo(no_musica **Lista){
     arquivo = fopen("lista_musicas.bin", "rb");
     if(arquivo == NULL)
         return 1;
+
+    no_musica *novo_no;
     
-    while(fread(&musica, sizeof(s_musica), 1, arquivo) != 0)
-        cria_musica_do_arquivo(musica, Lista);
+    while(fread(&musica, sizeof(s_musica), 1, arquivo) == 1){
+        novo_no = struct_para_no(musica);
+        adicionar_musica(Lista, novo_no);
+    }
 
     fclose(arquivo);
     return 0;
 }
 
-int cria_musica_do_arquivo(s_musica musica, no_musica **Lista){
-    no_musica *novo_no = (no_musica *)malloc(sizeof(no_musica));
-    novo_no->prox = NULL;
-    novo_no->ant = NULL;
-    novo_no->cadastro = musica;
-
-    if(adicionar_musica(Lista, novo_no) != 0)
-        return 1;
-    return 0;
-}
-
 /* FUNÇÕES QUE MEXEM COM A STRUCT CADASTRO */
-void exibe_musica(s_musica musica){
-    printf("Titulo: %s", musica.titulo);
-    printf("Artista: %s", musica.artista);
-    printf("Genero: %s", musica.genero);
-    printf("Ano: %d\n", musica.ano);
-    printf("Arquivo: %s", musica.nome_arquivo);
-    printf("Data de criacao: %d/%d/%d %d:%d:%d\n", musica.data_cria.tm_mday, musica.data_cria.tm_mon+1, musica.data_cria.tm_year+1900, musica.data_cria.tm_hour, musica.data_cria.tm_min, musica.data_cria.tm_sec);
-    printf("Data de modificacao: %d/%d/%d %d:%d:%d\n", musica.data_mod.tm_mday, musica.data_mod.tm_mon+1, musica.data_mod.tm_year+1900, musica.data_mod.tm_hour, musica.data_mod.tm_min, musica.data_mod.tm_sec);
-}
 
 no_musica *cria_musica(){
     s_musica nova_musica;
@@ -86,11 +70,30 @@ no_musica *cria_musica(){
     nova_musica.data_mod = nova_musica.data_cria;
 
     no_musica *novo_no;
-    novo_no = (no_musica *)malloc(sizeof(no_musica));
-    novo_no->cadastro = nova_musica;
+    novo_no = struct_para_no(nova_musica);
+    return novo_no;
+}
+
+no_musica *struct_para_no(s_musica musica){
+    no_musica *novo_no = (no_musica *)malloc(sizeof(no_musica));
     novo_no->prox = NULL;
     novo_no->ant = NULL;
+    novo_no->cadastro = musica;
+
     return novo_no;
+}
+
+void exibe_musica(s_musica musica){
+    int i;
+    printf("╔═════════════════════════════════════════╗\n");
+    printf("║ Titulo.............: "); imprime_string_sem_n(musica.titulo); for(i=0; i<20-strlen(musica.titulo); i++) printf(" "); printf("║\n");
+    printf("║ Artista............: "); imprime_string_sem_n(musica.artista); for(i=0; i<20-strlen(musica.artista); i++) printf(" "); printf("║\n");
+    printf("║ Genero.............: "); imprime_string_sem_n(musica.genero); for(i=0; i<20-strlen(musica.genero); i++) printf(" "); printf("║\n");
+    printf("║ Ano................: %d               ║\n", musica.ano);
+    printf("║ Arquivo............: "); imprime_string_sem_n(musica.titulo); for(i=0; i<20-strlen(musica.nome_arquivo); i++) printf(" "); printf("║\n");
+    printf("║ Data de criacao....: %d/%d/%d %d:%d:%d ║\n", musica.data_cria.tm_mday, musica.data_cria.tm_mon+1, musica.data_cria.tm_year+1900, musica.data_cria.tm_hour, musica.data_cria.tm_min, musica.data_cria.tm_sec);
+    printf("║ Data de modificacao: %d/%d/%d %d:%d:%d ║\n", musica.data_mod.tm_mday, musica.data_mod.tm_mon+1, musica.data_mod.tm_year+1900, musica.data_mod.tm_hour, musica.data_mod.tm_min, musica.data_mod.tm_sec);
+    printf("╚═════════════════════════════════════════╝\n");
 }
 
 int altera_musica(no_musica **lista, no_musica *no_alterado){
@@ -162,12 +165,15 @@ int adicionar_musica(no_musica **lista, no_musica *novo_no){ //deve armazenar de
         como seria desejado.
         Para resolver esse problema, o ideal seria implementar uma lista
         circular, possivelmente com nó cabeça.
-
-        Fica pra próxima.
     */
 
     no_musica *aux = *lista;
     no_musica *anterior = NULL;
+    novo_no->prox = NULL;
+    novo_no->ant = NULL;
+
+    if(novo_no == NULL)
+        return 1;
 
     if(aux == NULL){ //Anteriormente, lista vazia
         *lista = novo_no;
@@ -201,7 +207,7 @@ int adicionar_musica(no_musica **lista, no_musica *novo_no){ //deve armazenar de
         }
         return 0;
     }
-    return 1; //Erro: não foi possível adicionar na lista (?)
+    return 1; //Erro: não foi possível adicionar na lista
 }
 
 int hard_delete(no_musica **lista, no_musica *no_removido){
@@ -231,7 +237,7 @@ int hard_delete(no_musica **lista, no_musica *no_removido){
                 return 0;
             }
 
-    return 1; //se chegou aqui deu um erro cabuloso na moral
+    return 1; //é inesperado chegar aqui
 }
 
 
@@ -271,10 +277,8 @@ int remove_musica(no_musica **lista, no_musica **lista_removidos, no_musica *no_
                 return 0;
             }
 
-    return 1; //se chegou aqui deu um erro cabuloso na moral
+    return 1; //é inesperado chegar aqui
 }
-
-//void recupera_musica(){} //opcional
 
 //Sobre a procura: se titulo = NULL, remoção por artista, caso contrário artista = NULL
 no_musica *busca_musica(no_musica *lista, char titulo[], char artista[]){
@@ -326,7 +330,8 @@ int exibe_lista(no_musica *Lista, char artista[]){
     if(artista == NULL){
         while(Lista != NULL){
             exibe_musica(Lista->cadastro);
-            printf("\t --- \n");
+            if(Lista->prox != NULL) 
+                printf("\t --- \n");
             Lista = Lista->prox;
         }
     }
@@ -335,7 +340,8 @@ int exibe_lista(no_musica *Lista, char artista[]){
             if(strcmp(Lista->cadastro.artista, artista) == 0){
                 exibe_musica(Lista->cadastro);
                 i++;
-                printf("\t --- \n");
+                if(Lista->prox != NULL) 
+                    printf("\t --- \n");
             }
             Lista = Lista->prox;
         }
@@ -344,6 +350,7 @@ int exibe_lista(no_musica *Lista, char artista[]){
     return 0;
 }
 
+//função sem uso para o usuário final
 int debugger_exibe_lista(no_musica *Lista){
     if(Lista == NULL)
         return 1;
