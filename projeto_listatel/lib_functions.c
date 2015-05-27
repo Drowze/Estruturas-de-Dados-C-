@@ -33,3 +33,16 @@ no_musica *struct_para_no(s_registro cadastro){
     return novo_no;
 }
 
+void adicionar_registro(no_registro **Lista, no_registro *novo_no, bool *pertence){
+    if (*lista == NULL) {
+        *lista = novo_no;
+        *pertence = false;
+    }
+    else
+        if (novo_no->cadastro.CPF == (*lista)->cadastro.CPF)
+            *pertence = true;
+        else if (novo_no->cadastro.CPF < (*lista)->cadastro.CPF)
+            adicionar_registro(novo_no, &((*lista)->esq), pertence);
+            else
+                adicionar_registro(novo_no, &((*lista)->dir), pertence);
+}
