@@ -1,8 +1,10 @@
 #ifndef LIB_FUNCTIONS_H_INCLUDED
 #define LIB_FUNCTIONS_H_INCLUDED
 
+#define size_nome 32
+
 struct s_registro{
-    char nome[32];
+    char nome[size_nome];
     double CPF;
     double numeros[5];
 };
