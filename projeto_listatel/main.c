@@ -23,8 +23,11 @@ int main(){
 
 		switch(op){
 			case 1:
-				adicionar_registro(no_registro *)
-		}
+				adicionar_registro(&Lista, cria_no());
+				break;
+			case 5:
+				exibe_pos_ordem(Lista);
+		}while(op != 0);
 
 	}
 }

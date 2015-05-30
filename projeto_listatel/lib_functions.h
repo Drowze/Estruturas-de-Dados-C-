@@ -28,7 +28,7 @@ no_registro *struct_para_no(s_registro registro); //CHECK
 
 //Prioridade:
 no_registro *cria_registro(); //CHECK
-int adicionar_registro(no_registro **lista, no_registro *novo_no, bool *pertence);
+int adicionar_registro(no_registro **Lista, no_registro *novo_no, bool *pertence);
 //
 no_registro *busca_registro(no_registro *lista, char nome[], double cpf, double numero, int *tempo_execucao, int *profundidade);
 int remove_registro(no_registro **lista, no_registro *no_removido);
