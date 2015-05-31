@@ -7,6 +7,7 @@ struct s_registro{
     char nome[size_nome];
     double CPF;
     double numeros[5];
+    int qtd_numeros;
 };
 typedef struct s_registro s_registro;
 
@@ -27,18 +28,22 @@ int le_arquivo(no_registro **Lista);
 no_registro *struct_para_no(s_registro registro); //CHECK
 
 //Prioridade:
-no_registro *cria_registro(); //CHECK
-int adicionar_registro(no_registro **Lista, no_registro *novo_no, bool *pertence);
+no_registro *cria_no(); //CHECK
+void adicionar_registro(no_registro **Lista, no_registro *novo_no, bool *pertence); //CHECK
 //
-no_registro *busca_registro(no_registro *lista, char nome[], double cpf, double numero, int *tempo_execucao, int *profundidade);
-int remove_registro(no_registro **lista, no_registro *no_removido);
+no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *tempo_execucao, int *profundidade);
+no_registro *busca_registro_nome(no_registro *Lista, char nome[], int *tempo_execucao, int *profundidade);
+no_registro *busca_registro_numero(no_registro *Lista, double numero, int *tempo_execucao, int *profundidade);
+int remove_registro(no_registro **Lista, no_registro *no_removido);
 //
-int altera_registro(no_registro **lista, no_registro *no_alterado);
+int altera_registro(no_registro **Lista, no_registro *no_alterado);
 //
-int exibe_lista(no_registro *lista, bool oganiza_cpf);
+void exibe_in_ordem(no_registro *Lista, bool oganiza_cpf);
 void exibe_registro(s_registro registro);
 //
-void exibe_tree(no_registro *lista);
+void exibe_tree(no_registro *Lista);
+//
+bool cpf_valido(int cpf);
 
 //auxiliares
 void imprime_string_sem_n(char string[]);
