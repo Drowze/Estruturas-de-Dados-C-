@@ -18,7 +18,7 @@ int main(){
 		puts("Digite a opcao:");
 		puts("1- Inserir cadastro");
 		puts("2- Remover cadastro");
-		puts("3- Alterar cadastro (NAO IMPLEMENTADO)");
+		puts("3- Alterar cadastro");
 		puts("4- Buscar cadastro"); //falta fazer por "parte-do-nome"
 		puts("5- Exibir cadastros"); //ordem: CPF crescente, falta ordenar por nome
 		puts("6- Exibir arvore de cadastros (NAO IMPLEMENTADO)");

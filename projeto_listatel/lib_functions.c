@@ -104,7 +104,7 @@ void altera_registro (no_registro *no_alterado, no_registro **Lista){
     do{
         printf("\n Qual campo deseja alterar?\n");
         printf("1- Nome \t| atual: %s", copia.nome);
-        printf("2- CPF \t\t| atual: %lf\n", copia.CPF);
+        printf("2- CPF \t\t| atual: %.0lf\n", copia.CPF);
         printf("3- Numeros de telefone\n");
         printf("\n 0: Salvar e sair");
         printf("\n-1: Sair sem salvar\n");
@@ -196,7 +196,7 @@ void exibe_in_ordem(no_registro *p, bool organiza_cpf) {
 void exibe_registro(s_registro registro){
     int i;
     printf("Nome: %s", registro.nome);
-    printf("CPF: %lf\n", registro.CPF);
+    printf("CPF: %.0lf\n", registro.CPF);
     for(i = 0; i < registro.qtd_numeros; i++)
         printf("%dº numero para contato: %.0lf\n", i+1, registro.numeros[i]);
 }
