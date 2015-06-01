@@ -1,7 +1,6 @@
 #include <stdio_ext.h> //consigo usar __fpurge(stdin) sem warnings (warning acusado usando gcc -wall)
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include "lib_functions.h"
 
 int main(){
