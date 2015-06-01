@@ -18,6 +18,12 @@ struct no_registro{
 };
 typedef struct no_registro no_registro;
 
+struct linked_list{
+	struct no_registro *registro;
+	struct linked_list *prox;
+};
+typedef struct linked_list linked_list;
+
 typedef enum {
     false = 0,
     true = 1,
@@ -46,7 +52,11 @@ void exibe_registro(s_registro registro); //CHECK
 //
 void exibe_tree(no_registro *Lista);
 //
-bool cpf_valido(int cpf);
+bool cpf_valido(double cpf);
+
+//Lista ligada:
+void linked_adiciona(no_registro *novo_no, linked_list **lista);
+void linked_remove(no_registro *no_removido, linked_list **lista);
 
 //auxiliares
 void imprime_string_sem_n(char string[]);

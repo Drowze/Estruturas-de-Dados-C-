@@ -219,12 +219,77 @@ no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *tempo_execu
             }
 }
 
+void linked_adiciona(no_registro *novo_no, linked_list **lista){
+    linked_list *aux = *lista;
+    linked_list *anterior = NULL;
+    
+    linked_list *new_node = (linked_list *)malloc(sizeof(linked_list));
+    new_node->registro = novo_no;
+    new_node->prox = NULL;
 
+    if(*lista == NULL){
+        *lista = new_node;
+        (*lista)->prox = NULL;
+    } else
+        while((aux != NULL) && strcmp(aux->registro->cadastro.nome, new_node->registro->cadastro.nome) < 0){
+            anterior = aux;
+            aux = aux->prox;
+        }
+        if(aux == NULL){
+            anterior->prox = new_node;
+            new_node->prox = NULL;
+        }
+        else{
+            if(anterior == NULL){
+                *lista = new_node;
+                new_node->prox = aux;
+            }
+            else{
+                anterior->prox = new_node;
+                new_node->prox = aux;
+            }
+        }
+}
+
+void linked_remove(no_registro *no_removido, linked_list **lista){
+    linked_list *aux = *lista;
+    linked_list *anterior = NULL;
+
+    if(aux == NULL){
+        printf("Erro: lista vazia");
+        printf("\nAperte enter para continuar\n");
+        __fpurge(stdin); getchar();
+    }
+    else{
+        while(aux != NULL && aux->registro->cadastro.CPF != no_removido->cadastro.CPF){
+            anterior = aux;
+            aux = aux->prox;
+        }
+        if(aux == NULL){
+            printf("Elemento nao encontrado\n");
+            printf("\nAperte enter para continuar\n");
+            __fpurge(stdin); getchar();
+        }
+        else{ //se ele cair, VAI REMOVER ALGUMA COISA
+            if(anterior == NULL){
+                *lista = aux->prox;
+                free(aux);
+            }
+            else{
+                anterior->prox = aux->prox;
+                free(aux);
+            }
+            printf("Removido com sucesso!");
+            printf("\nAperte enter para continuar\n");
+            __fpurge(stdin); getchar();
+        }
+    }
+}
 
 
 
 //apenas uma ideia; o professor falou que vai dar nota pra isso. Podemos implementar depois
-bool cpf_valido(cpf){
+bool cpf_valido(double cpf){
     return true;
     //referência: http://www.geradorcpf.com/algoritmo_do_cpf.htm
 }
