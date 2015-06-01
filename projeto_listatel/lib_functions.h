@@ -23,6 +23,8 @@ typedef enum {
     true = 1,
 } bool;
 
+no_registro *g; /* variavel global para a remoção */
+
 int escreve_no_arquivo(no_registro *Lista);
 int le_arquivo(no_registro **Lista);
 no_registro *struct_para_no(s_registro registro); //CHECK
@@ -34,9 +36,10 @@ void adicionar_registro(no_registro **Lista, no_registro *novo_no, bool *pertenc
 no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *tempo_execucao, int *profundidade); //CHECK
 no_registro *busca_registro_nome(no_registro *Lista, char nome[], int *tempo_execucao, int *profundidade);
 no_registro *busca_registro_numero(no_registro *Lista, double numero, int *tempo_execucao, int *profundidade);
-int remove_registro(no_registro **Lista, no_registro *no_removido);
+void remove_registro (no_registro *no_removido, no_registro **Lista); //CHECK
+void remove2_registro (no_registro **aux); //CHECK
 //
-int altera_registro(no_registro **Lista, no_registro *no_alterado);
+void altera_registro(no_registro *no_alterado, no_registro **Lista);
 //
 void exibe_in_ordem(no_registro *Lista, bool oganiza_cpf); //CHECK
 void exibe_registro(s_registro registro); //CHECK

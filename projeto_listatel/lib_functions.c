@@ -10,7 +10,11 @@ no_registro *cria_no(){
     printf("Digite o nome: ");
     __fpurge(stdin); fgets(novo_registro.nome, size_nome, stdin);
     printf("Digite o CPF: ");
-    scanf("%lf", &novo_registro.CPF);
+    do{
+        scanf("%lf", &novo_registro.CPF);
+        if(!cpf_valido(novo_registro.CPF))
+            printf("CPF invalido, digite novamente");
+    }while(!cpf_valido(novo_registro.CPF));
     do{
         printf("Quantidade de numeros para contato: ");
         scanf("%d", &novo_registro.qtd_numeros);
@@ -54,6 +58,126 @@ void adicionar_registro(no_registro **Lista, no_registro *novo_no, bool *pertenc
                 adicionar_registro(&((*Lista)->dir), novo_no, pertence);
 }
 
+void remove_registro (no_registro *no_removido, no_registro **Lista) {
+    if (*Lista == NULL) 
+        printf("Nao ha chave k\n") ;
+    else
+        if (no_removido->cadastro.CPF < (*Lista)->cadastro.CPF) 
+            remove_registro (no_removido, &(*Lista)->esq) ;
+        else
+            if (no_removido->cadastro.CPF > (*Lista)->cadastro.CPF)
+                remove_registro (no_removido, &(*Lista)->dir) ;
+            else { /* remover */
+                g = *Lista ;
+                if (g->dir == NULL) 
+                    *Lista = g->esq ; /* soh tem um...filho ? */
+                else 
+                    if (g->esq == NULL) 
+                        *Lista = g->dir ;
+                    else /* troca pelo mais a dir da subarvore esq */
+                        remove2_registro (&g->esq) ;
+                    free (g) ;
+            }
+}
+
+void remove2_registro (no_registro **r) {
+    if ((*r)->dir != NULL) 
+        remove2_registro (&(*r)->dir) ;
+    else {
+        g->cadastro = (*r)->cadastro ;
+        g = *r ;
+        *r = (*r)->esq ;
+    }
+}
+
+void altera_registro (no_registro *no_alterado, no_registro **Lista){
+    //1) copiar no_alterado->cadastro para copia
+    //2) alterações no copia
+    //3) remover no_alterado da lista
+    //4) criar no_copia e colocar na lista
+
+    int op, i, aux, aux1;
+    s_registro copia = no_alterado->cadastro;
+    no_registro *no_copia;
+    bool auxiliar_boolean = false;
+
+    do{
+        printf("\n Qual campo deseja alterar?\n");
+        printf("1- Nome \t| atual: %s", copia.nome);
+        printf("2- CPF \t\t| atual: %lf\n", copia.CPF);
+        printf("3- Numeros de telefone\n");
+        printf("\n 0: Salvar e sair");
+        printf("\n-1: Sair sem salvar\n");
+        printf("Sua opcao: ");
+        scanf("%d", &op);
+        switch(op){
+            case 1:
+                printf("Digite o novo nome: ");
+                __fpurge(stdin); fgets(copia.nome, size_nome, stdin);
+                break;
+            case 2:
+                printf("Digite o novo CPF: ");
+                do{
+                    scanf("%lf", &copia.CPF);
+                    if(!cpf_valido(copia.CPF))
+                        printf("CPF invalido, digite novamente");
+                }while(!cpf_valido(copia.CPF));
+                break;
+            case 3:
+                printf("\n  Operacoes:\n");
+                printf("1- Adicionar\n");
+                printf("2- Alterar existente\n");
+                printf("3- Remover existente\n");
+                printf("\n0- Cancelar\n");
+                printf("Sua opcao: ");
+                scanf("%d", &aux1);
+                do{
+                    if(aux1 < 0 && aux1 > 3)
+                        printf("Erro: opcao invalida. Tente novamente: ");
+                }while(aux1 < 0 && aux1 > 3);
+                if(aux1 == 1){
+                    if(copia.qtd_numeros < 5){
+                        scanf("%lf", &copia.numeros[copia.qtd_numeros]);
+                        copia.qtd_numeros++;
+                    } else
+                        printf("Erro: voce nao pode adicionar mais que 5 numeros");
+                } else
+                        if(op != 0){
+                            printf("\n Numeros de telefone: \n");
+                            for(i = 0; i < copia.qtd_numeros; i++){
+                                printf("%d: %.0lf\n", i+1, copia.numeros[i]);
+                            }
+                            printf("\nNumero a ser alterado (escolha a opcao correspondente): ");
+                            scanf("%d", &aux);
+                            if(aux-1 < 0 || aux-1 > copia.qtd_numeros)
+                                printf("Numero invalido\n");
+                            else{
+                                if(aux1 == 2){
+                                    printf("Digite o novo numero: ");
+                                    scanf("%lf", &(copia.numeros[aux-1]));
+                                } else
+                                    if(aux1 == 3){
+                                        if(copia.qtd_numeros > 1){
+                                            for(; aux < 4; aux++)
+                                                copia.numeros[i] = copia.numeros[i+1];
+                                            copia.qtd_numeros--;
+                                        } else
+                                            printf("Erro: voce nao pode apagar o unico contato do cliente\n");
+                                    }
+                            }
+                        }
+                break;
+            case 0:
+                no_copia = struct_para_no(copia);
+                remove_registro(no_alterado, Lista);
+                adicionar_registro(Lista, no_copia, &auxiliar_boolean);
+                break;
+            case -1:
+                break;
+        }
+    }while(op != 0 && op != -1);
+}
+
 //se organiza_cpf = true, exibe in-ordem por CPF, se não, exibe por nome (vai dar treta isso)
 void exibe_in_ordem(no_registro *p, bool organiza_cpf) {
     if(organiza_cpf){
@@ -74,7 +198,7 @@ void exibe_registro(s_registro registro){
     printf("Nome: %s", registro.nome);
     printf("CPF: %lf\n", registro.CPF);
     for(i = 0; i < registro.qtd_numeros; i++)
-        printf("%dº numero para contato: %lf\n", i+1, registro.numeros[i]);
+        printf("%dº numero para contato: %.0lf\n", i+1, registro.numeros[i]);
 }
 
 no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *tempo_execucao, int *profundidade){
@@ -82,12 +206,17 @@ no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *tempo_execu
         return NULL; // não rolou :(
     } else 
         if(cpf < Lista->cadastro.CPF) {
+            (*profundidade)++;
             return busca_registro_cpf(Lista->esq, cpf, tempo_execucao, profundidade);
         } else
             if(cpf > Lista->cadastro.CPF){
+                (*profundidade)++;
                 return busca_registro_cpf(Lista->dir, cpf, tempo_execucao, profundidade);
-            } else
+            } else {
+                //*tempo_execucao = ?
+                //profundidade = ?
                 return Lista; // achooo~
+            }
 }
 
 
@@ -99,11 +228,3 @@ bool cpf_valido(cpf){
     return true;
     //referência: http://www.geradorcpf.com/algoritmo_do_cpf.htm
 }
-
-    //Prioridade:
-    //Busca é por CPF? (não == -1)
-    //Busca é por por nome? (não == NULL)
-    //Busca é por numero? (não == -1)
-    //Foi encontrado: retorna ponteiro pro bangue
-    //Não foi encontrado: retorna NULL
-    //Erro: retorna NULL
