@@ -55,8 +55,8 @@ void exibe_tree(no_registro *Lista);
 bool cpf_valido(double cpf);
 
 //Lista ligada:
-void linked_adiciona(no_registro *novo_no, linked_list **lista);
-void linked_remove(no_registro *no_removido, linked_list **lista);
+int linked_adiciona(no_registro *novo_no, linked_list **lista);
+int linked_remove(no_registro *no_removido, linked_list **lista);
 
 //auxiliares
 void imprime_string_sem_n(char string[]);

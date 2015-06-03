@@ -1,3 +1,5 @@
+//Pra diferença de tempo em micros: gettimeofday(); difftime();
+
 #include <stdio_ext.h> //consigo usar __fpurge(stdin) sem warnings (warning acusado usando gcc -wall)
 #include <stdlib.h>
 #include <string.h>
@@ -219,7 +221,7 @@ no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *tempo_execu
             }
 }
 
-void linked_adiciona(no_registro *novo_no, linked_list **lista){
+int linked_adiciona(no_registro *novo_no, linked_list **lista){
     linked_list *aux = *lista;
     linked_list *anterior = NULL;
     
@@ -230,7 +232,8 @@ void linked_adiciona(no_registro *novo_no, linked_list **lista){
     if(*lista == NULL){
         *lista = new_node;
         (*lista)->prox = NULL;
-    } else
+        return 0;
+    } else {
         while((aux != NULL) && strcmp(aux->registro->cadastro.nome, new_node->registro->cadastro.nome) < 0){
             anterior = aux;
             aux = aux->prox;
@@ -249,27 +252,23 @@ void linked_adiciona(no_registro *novo_no, linked_list **lista){
                 new_node->prox = aux;
             }
         }
+        return 0;
+    }
 }
 
-void linked_remove(no_registro *no_removido, linked_list **lista){
+int linked_remove(no_registro *no_removido, linked_list **lista){
     linked_list *aux = *lista;
     linked_list *anterior = NULL;
 
-    if(aux == NULL){
-        printf("Erro: lista vazia");
-        printf("\nAperte enter para continuar\n");
-        __fpurge(stdin); getchar();
-    }
+    if(aux == NULL)
+        return -1;
     else{
         while(aux != NULL && aux->registro->cadastro.CPF != no_removido->cadastro.CPF){
             anterior = aux;
             aux = aux->prox;
         }
-        if(aux == NULL){
-            printf("Elemento nao encontrado\n");
-            printf("\nAperte enter para continuar\n");
-            __fpurge(stdin); getchar();
-        }
+        if(aux == NULL)
+            return -1;
         else{ //se ele cair, VAI REMOVER ALGUMA COISA
             if(anterior == NULL){
                 *lista = aux->prox;
@@ -279,10 +278,22 @@ void linked_remove(no_registro *no_removido, linked_list **lista){
                 anterior->prox = aux->prox;
                 free(aux);
             }
-            printf("Removido com sucesso!");
-            printf("\nAperte enter para continuar\n");
-            __fpurge(stdin); getchar();
+            return 0;
         }
+    }
+}
+
+int exibe_linked(linked_list *lista){
+    if(lista == NULL)
+        return -1;
+    else{
+        while(lista != NULL){
+            exibe_registro(lista->registro->cadastro);
+            if(lista->prox != NULL) 
+                printf("\t --- \n");
+            lista = lista->prox;
+        }
+        return 0;
     }
 }
 
