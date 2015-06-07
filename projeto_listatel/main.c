@@ -6,8 +6,10 @@
 int main(){
 	int op;
 
-	no_registro *Lista = NULL;
+	no_registro *tree = NULL;
 	no_registro *no = NULL;
+	linked_list *lista;
+
 	bool pertence;
 
 	double cpf;
@@ -27,15 +29,15 @@ int main(){
 
 		switch(op){
 			case 1:
-				adicionar_registro(&Lista, cria_no(), &pertence);
+				adicionar_registro(&tree, cria_no(), &pertence);
 				break;
 			case 2:
 				printf("\nDigite o CPF a ser removido: ");
 				scanf("%lf",&cpf);
 				if(cpf_valido(cpf)){
-					no = busca_registro_cpf(Lista, cpf, &tempo_execucao, &profundidade);
+					no = busca_registro_cpf(tree, cpf, &tempo_execucao, &profundidade);
 					if(no != NULL){
-						remove_registro(busca_registro_cpf(Lista, cpf, &tempo_execucao, &profundidade), &Lista);
+						remove_registro(busca_registro_cpf(tree, cpf, &tempo_execucao, &profundidade), &tree);
 					} else
 						printf("Erro: CPF nao encontrado");
 				} else
@@ -45,9 +47,9 @@ int main(){
 				printf("\nDigite o CPF do cadastro a ser alterado: ");
 				scanf("%lf",&cpf);
 				if(cpf_valido(cpf)){
-					no = busca_registro_cpf(Lista, cpf, &tempo_execucao, &profundidade);
+					no = busca_registro_cpf(tree, cpf, &tempo_execucao, &profundidade);
 					if(no != NULL){
-						altera_registro (no, &Lista);
+						altera_registro (no, &tree);
 					} else
 						printf("CPF nao encontrado");
 				}
@@ -57,7 +59,7 @@ int main(){
 				scanf("%lf", &cpf);
 				if(cpf_valido(cpf)){
 					profundidade = 0;
-					no = busca_registro_cpf(Lista, cpf, &tempo_execucao, &profundidade);
+					no = busca_registro_cpf(tree, cpf, &tempo_execucao, &profundidade);
 					if(no != NULL){
 						exibe_registro(no->cadastro);
 						printf("Profundidade na árvore: %d\n", profundidade);
@@ -67,7 +69,20 @@ int main(){
 					printf("CPF invalido\n");
 				break;
 			case 5:
-				exibe_in_ordem(Lista, true);
+				printf("\n1- Ordem de CPF");
+				printf("\n2- Ordem alfabetica");
+				printf("\nOpcao: ");
+				scanf("%d", &op);
+				if(op == 1){
+					exibe_in_ordem(tree, true);
+				} else if (op == 2){
+					exibe_in_ordem(tree, false);
+				} else {
+					printf("Opcao invalida");
+				}
+
+
+				
 				break;
 		}
 

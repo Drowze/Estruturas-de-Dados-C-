@@ -182,7 +182,7 @@ void altera_registro (no_registro *no_alterado, no_registro **Lista){
 
 //se organiza_cpf = true, exibe in-ordem por CPF, se não, exibe por nome (vai dar treta isso)
 void exibe_in_ordem(no_registro *p, bool organiza_cpf) {
-    if(organiza_cpf){
+    if(organiza_cpf) {
         if(p != NULL) {
             exibe_in_ordem(p->esq, organiza_cpf);
             exibe_registro(p->cadastro);
@@ -191,7 +191,9 @@ void exibe_in_ordem(no_registro *p, bool organiza_cpf) {
         }
     }
     else{
-
+        linked_list *lista = NULL;
+        tree_to_linked(p, &lista);
+        exibe_linked(lista);
     }
 }
 
@@ -221,11 +223,28 @@ no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *tempo_execu
             }
 }
 
+/* LINKED LIST FUNCTIONS */
+//Exibindo em ordem alfabetica: tree_to_linked, exibe_linked, linked_wipe
+
+void tree_to_linked(no_registro *tree, linked_list **lista){
+    if(*lista == NULL){
+        *lista = (linked_list *)malloc(sizeof(linked_list));
+        tree_to_linked(tree, lista);
+    }
+    else if (tree != NULL) {
+        tree_to_linked(tree->esq, lista);
+        linked_adiciona(tree, lista);
+        tree_to_linked(tree->dir, lista);
+    }
+}
+
 int linked_adiciona(no_registro *novo_no, linked_list **lista){
     linked_list *aux = *lista;
     linked_list *anterior = NULL;
     
     linked_list *new_node = (linked_list *)malloc(sizeof(linked_list));
+    if(new_node == NULL)
+        return -1;
     new_node->registro = novo_no;
     new_node->prox = NULL;
 
@@ -256,47 +275,65 @@ int linked_adiciona(no_registro *novo_no, linked_list **lista){
     }
 }
 
-int linked_remove(no_registro *no_removido, linked_list **lista){
-    linked_list *aux = *lista;
-    linked_list *anterior = NULL;
-
-    if(aux == NULL)
+int linked_wipe(linked_list **lista) {
+    if(*lista == NULL)
         return -1;
-    else{
-        while(aux != NULL && aux->registro->cadastro.CPF != no_removido->cadastro.CPF){
-            anterior = aux;
-            aux = aux->prox;
-        }
-        if(aux == NULL)
-            return -1;
-        else{ //se ele cair, VAI REMOVER ALGUMA COISA
-            if(anterior == NULL){
-                *lista = aux->prox;
-                free(aux);
-            }
-            else{
-                anterior->prox = aux->prox;
-                free(aux);
-            }
-            return 0;
-        }
+
+    linked_list *aux = *lista;
+    linked_list *proximo;
+
+    while(aux != NULL){
+        proximo = aux->prox;
+        free(aux);
+        aux = proximo;
     }
+
+    return 0;
+
+    *lista = NULL;
 }
 
+// int linked_remove(no_registro *no_removido, linked_list **lista){
+//     linked_list *aux = *lista;
+//     linked_list *anterior = NULL;
+
+//     if(aux == NULL)
+//         return -1;
+//     else{
+//         while(aux != NULL && aux->registro->cadastro.CPF != no_removido->cadastro.CPF){
+//             anterior = aux;
+//             aux = aux->prox;
+//         }
+//         if(aux == NULL)
+//             return -1;
+//         else{ //se ele cair, VAI REMOVER ALGUMA COISA
+//             if(anterior == NULL){
+//                 *lista = aux->prox;
+//                 free(aux);
+//             }
+//             else{
+//                 anterior->prox = aux->prox;
+//                 free(aux);
+//             }
+//             return 0;
+//         }
+//     }
+// }
+
+//seg-faul aqui
 int exibe_linked(linked_list *lista){
     if(lista == NULL)
         return -1;
     else{
-        while(lista != NULL){
+        //while(lista != NULL){
             exibe_registro(lista->registro->cadastro);
             if(lista->prox != NULL) 
                 printf("\t --- \n");
             lista = lista->prox;
-        }
+        //}
         return 0;
     }
 }
-
 
 
 //apenas uma ideia; o professor falou que vai dar nota pra isso. Podemos implementar depois

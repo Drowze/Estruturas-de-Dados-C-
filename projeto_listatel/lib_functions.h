@@ -57,9 +57,13 @@ bool cpf_valido(double cpf);
 //Lista ligada:
 int linked_adiciona(no_registro *novo_no, linked_list **lista);
 int linked_remove(no_registro *no_removido, linked_list **lista);
+int exibe_linked(linked_list *lista);
+int linked_wipe(linked_list **lista);
+void tree_to_linked(no_registro *tree, linked_list **lista);
 
 //auxiliares
 void imprime_string_sem_n(char string[]);
 int debugger_exibe_lista(no_registro *Lista);
+
 
 #endif
