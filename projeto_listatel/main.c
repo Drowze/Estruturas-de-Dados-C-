@@ -8,7 +8,7 @@
 int main(){
 	char op;
 
-	no_registro *tree = NULL;
+	no_registro *tree = le_arquivo();
 	no_registro *no = NULL;
 	linked_list *lista;
 
@@ -127,6 +127,9 @@ int main(){
 
 				
 				break;
+			case '9':
+				debugger_exibe_arvore(tree, tree);
+				break;
             case '0':
                 break;
             default:
@@ -136,4 +139,5 @@ int main(){
         __fpurge(stdin);
 
 	}while(op != '0');
+	escreve_no_arquivo(tree);
 }
