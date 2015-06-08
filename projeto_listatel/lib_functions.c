@@ -473,11 +473,11 @@ int altura(no_registro *tree, no_registro *no_procurado, int depth){
     else if(tree == no_procurado)
         return depth;
     else{
-        if(no_registro->cadastro.CPF > tree->cadastro.CPF)
-            depth = altura(tree->dir, no_procurado, depth+1);
+        if(no_procurado->cadastro.CPF > tree->cadastro.CPF)
+            return altura(tree->dir, no_procurado, depth) + 1;
         else
-            depth = altura(tree->esq, no_procurado, depth+1);
-        return depth+1;
+            return altura(tree->esq, no_procurado, depth) + 1;
+//        return depth+1;
     }
 }
 
