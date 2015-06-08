@@ -41,8 +41,8 @@ no_registro *cria_no(); //CHECK
 void adicionar_registro(no_registro **Lista, no_registro *novo_no, bool *pertence); //CHECK
 //
 no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *profundidade); //CHECK
-int busca_registro_nome(no_registro *Lista, no_registro *aux, char nome[], int ocorrencias, struct timeval before); //CHECK
-int busca_registro_numero(no_registro *Lista, no_registro *aux, double numero, int ocorrencias, struct timeval before); //CHECK
+int busca_registro_nome(no_registro *Lista, no_registro *aux, char nome[], struct timeval before); //CHECK
+int busca_registro_numero(no_registro *Lista, no_registro *aux, double numero, struct timeval before); //CHECK
 void remove_registro (no_registro *no_removido, no_registro **Lista); //CHECK
 void remove2_registro (no_registro **aux); //CHECK
 //

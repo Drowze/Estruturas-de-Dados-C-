@@ -1,4 +1,5 @@
 //Pra diferença de tempo em micros: gettimeofday(); difftime();
+//Para salvar: usar pré-ordem que dá um baguio zig zag loko
 
 #include <stdio_ext.h> //consigo usar __fpurge(stdin) sem warnings (warning acusado usando gcc -wall)
 #include <stdlib.h>
@@ -194,6 +195,7 @@ void exibe_in_ordem(no_registro *p, bool organiza_cpf) {
         linked_list *lista = NULL;
         tree_to_linked(p, &lista);
         exibe_linked(lista);
+        linked_wipe(&lista);
     }
 }
 
@@ -221,7 +223,8 @@ no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *profundidad
             }
 }
 
-int busca_registro_nome(no_registro *Lista, no_registro *aux, char nome[], int ocorrencias, struct timeval before) {
+int busca_registro_nome(no_registro *Lista, no_registro *aux, char nome[], struct timeval before) {
+    int ocorrencias = 0;
     if(aux != NULL) {
         if(strstr(aux->cadastro.nome, nome) != NULL){
             struct timeval after;
@@ -234,15 +237,15 @@ int busca_registro_nome(no_registro *Lista, no_registro *aux, char nome[], int o
 
             ocorrencias++;
         }
-        busca_registro_nome(Lista, aux->esq, nome, ocorrencias, before);
-        busca_registro_nome(Lista, aux->dir, nome, ocorrencias, before);
+        ocorrencias += busca_registro_nome(Lista, aux->esq, nome, before);
+        ocorrencias += busca_registro_nome(Lista, aux->dir, nome, before);
         return ocorrencias;
     }
     return 0;
 }
 
-int busca_registro_numero(no_registro *Lista, no_registro *aux, double numero, int ocorrencias, struct timeval before){
-    int i;
+int busca_registro_numero(no_registro *Lista, no_registro *aux, double numero, struct timeval before){
+    int i, ocorrencias = 0;
     if(aux != NULL) {
         for(i = 0; i < 5; i++){
             if(i == aux->cadastro.qtd_numeros)
@@ -259,8 +262,8 @@ int busca_registro_numero(no_registro *Lista, no_registro *aux, double numero, i
                 ocorrencias++;
             }
         }
-        busca_registro_numero(Lista, aux->esq, numero, ocorrencias, before);
-        busca_registro_numero(Lista, aux->dir, numero, ocorrencias, before);
+        ocorrencias += busca_registro_numero(Lista, aux->esq, numero, before);
+        ocorrencias += busca_registro_numero(Lista, aux->dir, numero, before);
         return ocorrencias;
     }
     return 0;
@@ -420,8 +423,9 @@ int altura(no_registro *tree, no_registro *no_procurado, int depth){
     else if(tree == no_procurado)
         return depth;
     else{
-        depth = altura(tree->esq, no_procurado, depth);
-        depth = altura(tree->esq, no_procurado, depth);
+        //comparar o CPF do no procurado
+        depth = altura(tree->esq, no_procurado, depth+1);
+        depth = altura(tree->dir, no_procurado, depth+1);
         return depth+1;
     }
 }

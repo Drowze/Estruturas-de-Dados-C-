@@ -93,7 +93,7 @@ int main(){
                         __fpurge(stdin); scanf("%s", nome_parcial);
                         gettimeofday(&before, NULL);
                         printf("\n\nResultados: \n");
-                        printf("\n%d ocorrencias:\n\n", busca_registro_nome(tree, tree, nome_parcial, 0, before));
+                        printf("\n%d ocorrencias:\n\n", busca_registro_nome(tree, tree, nome_parcial, before));
 
 
                         break;
@@ -102,7 +102,7 @@ int main(){
                         scanf("%lf", &numero_contato);
                         gettimeofday(&before, NULL);
                         printf("\n\nResultados: \n");
-                        printf("\n%d ocorrencias:\n\n", busca_registro_numero(tree, tree, numero_contato, 0, before));
+                        printf("\n%d ocorrencias:\n\n", busca_registro_numero(tree, tree, numero_contato, before));
 
 
                         break;
