@@ -23,9 +23,9 @@ no_registro *cria_no(){
     do{
         printf("Quantidade de numeros para contato: ");
         scanf("%d", &novo_registro.qtd_numeros);
-        if(novo_registro.qtd_numeros < 1 && novo_registro.qtd_numeros > 5)
+        if(novo_registro.qtd_numeros < 1 || novo_registro.qtd_numeros > 5)
             printf("Quantidade invalida");
-    }while(novo_registro.qtd_numeros < 1 && novo_registro.qtd_numeros > 5);
+    }while(novo_registro.qtd_numeros < 1 || novo_registro.qtd_numeros > 5);
     for(i = 0; i < novo_registro.qtd_numeros; i++) {
         printf("%dº telefone para contato: ", i+1);
         scanf("%lf", &novo_registro.numeros[i]);
@@ -205,7 +205,7 @@ void exibe_registro(s_registro registro) {
         printf("%dº numero para contato: %.0lf\n", i+1, registro.numeros[i]);
 }
 
-no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *profundidade){
+no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *profundidade) {
     if(Lista == NULL) {
         return NULL; // registro não encontrado
     } else 
@@ -217,10 +217,53 @@ no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *profundidad
                 (*profundidade)++;
                 return busca_registro_cpf(Lista->dir, cpf,  profundidade);
             } else {
-                //*tempo_execucao = ?
-                //profundidade = ?
                 return Lista; // registro encontrado
             }
+}
+
+int busca_registro_nome(no_registro *Lista, no_registro *aux, char nome[], int ocorrencias, struct timeval before) {
+    if(aux != NULL) {
+        if(strstr(aux->cadastro.nome, nome) != NULL){
+            struct timeval after;
+            gettimeofday(&after, NULL);
+
+            exibe_registro(aux->cadastro);
+            printf("Tempo gasto durante a busca (microssegundos): %lf\n", time_diff(before, after));
+            printf("Profundidade: %d", altura(Lista, aux, 1));
+            printf("\n----\n");
+
+            ocorrencias++;
+        }
+        busca_registro_nome(Lista, aux->esq, nome, ocorrencias, before);
+        busca_registro_nome(Lista, aux->dir, nome, ocorrencias, before);
+        return ocorrencias;
+    }
+    return 0;
+}
+
+int busca_registro_numero(no_registro *Lista, no_registro *aux, double numero, int ocorrencias, struct timeval before){
+    int i;
+    if(aux != NULL) {
+        for(i = 0; i < 5; i++){
+            if(i == aux->cadastro.qtd_numeros)
+                break;
+            if(aux->cadastro.numeros[i] == numero){
+                struct timeval after;
+                gettimeofday(&after, NULL);
+
+                exibe_registro(aux->cadastro);
+                printf("Tempo gasto durante a busca (microssegundos): %lf\n", time_diff(before, after));
+                printf("Profundidade: %d", altura(Lista, aux, 1));
+                printf("\n----\n");
+
+                ocorrencias++;
+            }
+        }
+        busca_registro_numero(Lista, aux->esq, numero, ocorrencias, before);
+        busca_registro_numero(Lista, aux->dir, numero, ocorrencias, before);
+        return ocorrencias;
+    }
+    return 0;
 }
 
 /* FUNÇÕES PARA TRABALHAR A LISTA LIGADA */
@@ -306,6 +349,8 @@ int exibe_linked(linked_list *lista) {
 /* Funções auxiliares */
 //verificador de CPF
 bool cpf_valido(double cpf) {
+    //remover no release final:
+    return true;
     int sm=0, i, r, num;
     char dig10, dig11, cpfchar[12];
     snprintf(cpfchar, 12, "%lf", cpf);
@@ -358,8 +403,7 @@ void capitalizing(char string[]) {
              string[i]= toupper(string[i]);
 }
 
-double time_diff(struct timeval x , struct timeval y)
-{
+double time_diff(struct timeval x , struct timeval y) {
     double x_ms , y_ms , diff;
      
     x_ms = (double)x.tv_sec*1000000 + (double)x.tv_usec;
@@ -368,4 +412,16 @@ double time_diff(struct timeval x , struct timeval y)
     diff = (double)y_ms - (double)x_ms;
      
     return diff;
+}
+
+int altura(no_registro *tree, no_registro *no_procurado, int depth){
+    if(tree == NULL)
+        return 0;
+    else if(tree == no_procurado)
+        return depth;
+    else{
+        depth = altura(tree->esq, no_procurado, depth);
+        depth = altura(tree->esq, no_procurado, depth);
+        return depth+1;
+    }
 }

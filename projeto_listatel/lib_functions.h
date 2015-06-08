@@ -41,12 +41,12 @@ no_registro *cria_no(); //CHECK
 void adicionar_registro(no_registro **Lista, no_registro *novo_no, bool *pertence); //CHECK
 //
 no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *profundidade); //CHECK
-no_registro *busca_registro_nome(no_registro *Lista, char nome[], int *profundidade);
-no_registro *busca_registro_numero(no_registro *Lista, double numero, int *profundidade);
+int busca_registro_nome(no_registro *Lista, no_registro *aux, char nome[], int ocorrencias, struct timeval before); //CHECK
+int busca_registro_numero(no_registro *Lista, no_registro *aux, double numero, int ocorrencias, struct timeval before); //CHECK
 void remove_registro (no_registro *no_removido, no_registro **Lista); //CHECK
 void remove2_registro (no_registro **aux); //CHECK
 //
-void altera_registro(no_registro *no_alterado, no_registro **Lista);
+void altera_registro(no_registro *no_alterado, no_registro **Lista); //CHECK
 //
 void exibe_in_ordem(no_registro *Lista, bool oganiza_cpf); //CHECK
 void exibe_registro(s_registro registro); //CHECK
@@ -55,15 +55,16 @@ void exibe_tree(no_registro *Lista);
 //
 
 //Lista ligada:
-int linked_adiciona(no_registro *novo_no, linked_list **lista);
-int exibe_linked(linked_list *lista);
-int linked_wipe(linked_list **lista);
-void tree_to_linked(no_registro *tree, linked_list **lista);
+int linked_adiciona(no_registro *novo_no, linked_list **lista); //CHECK
+int exibe_linked(linked_list *lista); //CHECK
+int linked_wipe(linked_list **lista); //CHECK
+void tree_to_linked(no_registro *tree, linked_list **lista); //CHECK
 
 //auxiliares
 //void imprime_string_sem_n(char string[]);
-bool cpf_valido(double cpf);
-void capitalizing(char string[]);
-double time_diff(struct timeval x , struct timeval y);
+bool cpf_valido(double cpf); //CHECK
+void capitalizing(char string[]); //CHECK
+double time_diff(struct timeval x , struct timeval y); //CHECK
+int altura(no_registro *tree, no_registro *no_procurado, int depth); //CHECK
 
 #endif
