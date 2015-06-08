@@ -2,6 +2,7 @@
 #define LIB_FUNCTIONS_H_INCLUDED
 
 #define size_nome 32
+#include <sys/time.h>
 
 struct s_registro{
     char nome[size_nome];
@@ -39,9 +40,9 @@ no_registro *struct_para_no(s_registro registro); //CHECK
 no_registro *cria_no(); //CHECK
 void adicionar_registro(no_registro **Lista, no_registro *novo_no, bool *pertence); //CHECK
 //
-no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *tempo_execucao, int *profundidade); //CHECK
-no_registro *busca_registro_nome(no_registro *Lista, char nome[], int *tempo_execucao, int *profundidade);
-no_registro *busca_registro_numero(no_registro *Lista, double numero, int *tempo_execucao, int *profundidade);
+no_registro *busca_registro_cpf(no_registro *Lista, double cpf, int *profundidade); //CHECK
+no_registro *busca_registro_nome(no_registro *Lista, char nome[], int *profundidade);
+no_registro *busca_registro_numero(no_registro *Lista, double numero, int *profundidade);
 void remove_registro (no_registro *no_removido, no_registro **Lista); //CHECK
 void remove2_registro (no_registro **aux); //CHECK
 //
@@ -52,18 +53,17 @@ void exibe_registro(s_registro registro); //CHECK
 //
 void exibe_tree(no_registro *Lista);
 //
-bool cpf_valido(double cpf);
 
 //Lista ligada:
 int linked_adiciona(no_registro *novo_no, linked_list **lista);
-int linked_remove(no_registro *no_removido, linked_list **lista);
 int exibe_linked(linked_list *lista);
 int linked_wipe(linked_list **lista);
 void tree_to_linked(no_registro *tree, linked_list **lista);
 
 //auxiliares
-void imprime_string_sem_n(char string[]);
-int debugger_exibe_lista(no_registro *Lista);
-
+//void imprime_string_sem_n(char string[]);
+bool cpf_valido(double cpf);
+void capitalizing(char string[]);
+double time_diff(struct timeval x , struct timeval y);
 
 #endif

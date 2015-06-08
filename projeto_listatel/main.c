@@ -1,7 +1,9 @@
 #include <stdio_ext.h> //consigo usar __fpurge(stdin) sem warnings (warning acusado usando gcc -wall)
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
 #include "lib_functions.h"
+
 
 int main(){
 	int op;
@@ -13,8 +15,11 @@ int main(){
 	bool pertence;
 
 	double cpf;
-	int tempo_execucao = 0;
 	int profundidade = 0;
+
+    struct timeval before;
+    struct timeval after;
+    double time_elapsed;
 
 	do{
 		puts("Digite a opcao:");
@@ -35,9 +40,9 @@ int main(){
 				printf("\nDigite o CPF a ser removido: ");
 				scanf("%lf",&cpf);
 				if(cpf_valido(cpf)){
-					no = busca_registro_cpf(tree, cpf, &tempo_execucao, &profundidade);
+					no = busca_registro_cpf(tree, cpf, &profundidade);
 					if(no != NULL){
-						remove_registro(busca_registro_cpf(tree, cpf, &tempo_execucao, &profundidade), &tree);
+						remove_registro(busca_registro_cpf(tree, cpf, &profundidade), &tree);
 					} else
 						printf("Erro: CPF nao encontrado");
 				} else
@@ -47,7 +52,7 @@ int main(){
 				printf("\nDigite o CPF do cadastro a ser alterado: ");
 				scanf("%lf",&cpf);
 				if(cpf_valido(cpf)){
-					no = busca_registro_cpf(tree, cpf, &tempo_execucao, &profundidade);
+					no = busca_registro_cpf(tree, cpf, &profundidade);
 					if(no != NULL){
 						altera_registro (no, &tree);
 					} else
@@ -59,10 +64,14 @@ int main(){
 				scanf("%lf", &cpf);
 				if(cpf_valido(cpf)){
 					profundidade = 0;
-					no = busca_registro_cpf(tree, cpf, &tempo_execucao, &profundidade);
+					no = busca_registro_cpf(tree, cpf, &profundidade);
 					if(no != NULL){
+                        gettimeofday(&before, NULL);
 						exibe_registro(no->cadastro);
+                        gettimeofday(&after, NULL);
+                        time_elapsed = time_diff(before, after);
 						printf("Profundidade na árvore: %d\n", profundidade);
+                        printf("Tempo gasto durante a busca (microssegundos): %lf\n", time_elapsed);
 					} else
 						printf("Erro: CPF nao encontrado");
 				} else
