@@ -1,8 +1,27 @@
+/*
+Integrante 1 - Nome: Leonardo Saito		RA: 
+Integrante 2 - Nome: Rafael Gibim		RA: 14081673
+Integrante 3 - Nome: Rodrigo Groot		RA: 
+Integrante 4 - Nome: Vinicius Nunes		RA: 
+Resultados obtidos:
+Projeto básico: _____ % concluído - Obs: ___________________________________
+( ) Opcional 1 - Obs: ____________________________________________________
+( ) Opcional 2 - Obs: ____________________________________________________
+( ) Opcional 3 - Obs: ____________________________________________________
+( ) Opcional 4 - Obs: ____________________________________________________
+( ) Opcional 5 - Obs: ____________________________________________________
+( ) Opcional 6 - Obs: ____________________________________________________ 
+*/
+
+
 #include <stdio_ext.h> //consigo usar __fpurge(stdin) sem warnings (warning acusado usando gcc -wall)
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
 #include "lib_functions.h"
+
+#define MSG_CPFNAOENCONTRADO "Erro: CPF nao encontrado\n\n"
+#define MSG_CPFINVALIDO "Erro: CPF invalido\n\n"
 
 
 int main(){
@@ -29,8 +48,8 @@ int main(){
 		puts("1- Inserir cadastro");
 		puts("2- Remover cadastro");
 		puts("3- Alterar cadastro");
-		puts("4- Buscar cadastro"); //falta fazer por "parte-do-nome"
-		puts("5- Exibir cadastros"); //ordem: CPF crescente, falta ordenar por nome
+		puts("4- Buscar cadastro"); 
+		puts("5- Exibir cadastros"); 
 		puts("6- Exibir arvore de cadastros (NAO IMPLEMENTADO)");
 		puts("\n0- Sair");
 		scanf("%c", &op);
@@ -47,9 +66,9 @@ int main(){
 					if(no != NULL){
 						remove_registro(busca_registro_cpf(tree, cpf, &profundidade), &tree);
 					} else
-						printf("Erro: CPF nao encontrado");
+						printf(MSG_CPFNAOENCONTRADO);
 				} else
-					printf("CPF invalido\n");
+					printf(MSG_CPFINVALIDO);
 				break;
 			case '3':
 				printf("\nDigite o CPF do cadastro a ser alterado: ");
@@ -59,7 +78,7 @@ int main(){
 					if(no != NULL){
 						altera_registro (no, &tree);
 					} else
-						printf("CPF nao encontrado");
+						printf(MSG_CPFNAOENCONTRADO);
 				}
 				break;
 			case '4':
@@ -86,7 +105,7 @@ int main(){
         					} else
         						printf("Nao foram encontrados registros\n\n");
         				} else
-        					printf("CPF invalido\n\n");
+        					printf(MSG_CPFINVALIDO);
                         break;
                     case '2':
                         printf("Digite uma parte do nome: ");

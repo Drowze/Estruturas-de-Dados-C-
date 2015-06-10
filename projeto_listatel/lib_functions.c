@@ -165,8 +165,10 @@ void altera_registro (no_registro *no_alterado, no_registro **Lista){
                 do{
                     scanf("%lf", &copia.CPF);
                     if(!cpf_valido(copia.CPF))
-                        printf("CPF invalido, digite novamente");
-                }while(!cpf_valido(copia.CPF));
+                        printf("CPF invalido, digite novamente\n");
+                    else if(busca_registro_cpf(*Lista, copia.CPF, &aux) != NULL);
+                        printf("CPF ja registrado. Escolha outro\n");
+                }while(!cpf_valido(copia.CPF) || busca_registro_cpf(*Lista, copia.CPF, &aux) != NULL);
                 break;
             case 3:
                 printf("\n  Operacoes:\n");
@@ -244,7 +246,7 @@ void exibe_in_ordem(no_registro *p, bool organiza_cpf) {
 void exibe_registro(s_registro registro) {
     int i;
     printf("Nome: %s", registro.nome);
-    printf("CPF: %.0lf\n", registro.CPF);
+    printf("CPF: %011.0lf\n", registro.CPF);
     for(i = 0; i < registro.qtd_numeros; i++)
         printf("%dº numero para contato: %.0lf\n", i+1, registro.numeros[i]);
 }
@@ -400,15 +402,12 @@ int exibe_linked(linked_list *lista) {
 /* Funções auxiliares */
 //Verificador de CPF
 bool cpf_valido(double cpf) {
-    //remover no release final:
-    return true;
+    //return true; //remover no release final:
     int sm=0, i, r, num;
     char dig10, dig11, cpfchar[12];
-    snprintf(cpfchar, 12, "%lf", cpf);
+    snprintf(cpfchar, 12, "%011lf", cpf);
 
     if(cpf - (long long)cpf != 0) //Apenas números são aceitos; número decimal é inválido
-        return false;
-    if(strlen(cpfchar) != 11)
         return false;
 
     
@@ -448,7 +447,7 @@ void capitalizing(char string[]) {
     int i;
     int x = strlen(string);
     if(isalpha(string[0]))
-        string[0] = toupper(string[i]);
+        string[0] = toupper(string[0]);
     for (i=1;i<x;i++)
          if (isalpha(string[i]) && string[i-1] == ' ')
              string[i]= toupper(string[i]);
@@ -477,7 +476,6 @@ int altura(no_registro *tree, no_registro *no_procurado, int depth){
             return altura(tree->dir, no_procurado, depth) + 1;
         else
             return altura(tree->esq, no_procurado, depth) + 1;
-//        return depth+1;
     }
 }
 
